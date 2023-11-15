@@ -9,5 +9,8 @@ def main():
     # main loop 
     work()
 
+def work():
+    pass
+
 if __name__ == "__main__":
     main()
