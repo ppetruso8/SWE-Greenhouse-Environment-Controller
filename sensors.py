@@ -1,0 +1,1 @@
+'''separate class for each sensor - read and process sensor data'''

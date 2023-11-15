@@ -1,0 +1,1 @@
+''' main application, launching UI, function for processing data '''
