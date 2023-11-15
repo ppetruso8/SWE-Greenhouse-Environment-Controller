@@ -1,0 +1,1 @@
+'''tkinter? display real time data, let user set preferred environmental parameters'''
