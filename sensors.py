@@ -24,9 +24,9 @@ class LightSensor:
         return simulator.get_data("light")
 
 def initialize_sensors():
-    temperature_sensor = TemperatureSensor
-    humidity_sensor = HumiditySensor
-    light_sensor = LightSensor
+    temperature_sensor = TemperatureSensor()
+    humidity_sensor = HumiditySensor()
+    light_sensor = LightSensor()
     
     # put sensors into the output dictionary
     sensors = {"temperature": temperature_sensor, "humidity": humidity_sensor, "light": light_sensor}
