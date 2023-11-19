@@ -22,37 +22,37 @@ def get_data(sensor):
         "light": 10
     }
 
-    for variable in changes:
-        # get the change of the value for each environment variable
-        if variable == "temperature":
-            change = random.uniform(-changes[variable], changes[variable])                
+    # calculate change for appropriate sensor
+    if sensor == "temperature":
+        change = random.uniform(-changes[sensor], changes[sensor])                
+    else:
+        change = random.randint(-changes[sensor], changes[sensor])
+
+
+    updated_value = environment[sensor] + change
+
+    # apply boundaries to the environmental variable values and apply changes
+    if sensor == "temperature":
+        if updated_value > 40:
+            environment[sensor] = 40
+        elif updated_value < 15:
+            environment[sensor] = 15
         else:
-            change = random.randint(-changes[variable], changes[variable])
-
-        updated_value = environment[variable] + change
-
-        # apply boundaries to the environmental variable values and apply changes
-        if variable == "temperature":
-            if updated_value > 40:
-                environment[variable] = 40
-            elif updated_value < 15:
-                environment[variable] = 15
-            else:
-                environment[variable] = updated_value
-        elif variable == "humidity":
-            if updated_value > 100:
-                    environment[variable] = 100
-            elif updated_value < 40:
-                    environment[variable] = 40
-            else:
-                environment[variable] = updated_value
-        elif variable == "light":
-            if updated_value > 850:
-                environment[variable] = 850
-            elif updated_value < 100:
-                environment[variable] = 100
-            else:
-                environment[variable] = updated_value        
+            environment[sensor] = updated_value
+    elif sensor == "humidity":
+        if updated_value > 100:
+                environment[sensor] = 100
+        elif updated_value < 40:
+                environment[sensor] = 40
+        else:
+            environment[sensor] = updated_value
+    elif sensor == "light":
+        if updated_value > 850:
+            environment[sensor] = 850
+        elif updated_value < 100:
+            environment[sensor] = 100
+        else:
+            environment[sensor] = updated_value        
 
     # return generated data
     if sensor == "temperature":
