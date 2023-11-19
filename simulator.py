@@ -1,16 +1,28 @@
 '''
-Simulator generating sensor readings of environment.
+Simulator simulating greenhouse environment and generating sensor readings of environment variables.
 '''
 
 import random
 
-# initial ideal environment state
+# initial environment state
 environment = {
     "temperature": 25.0,
     "humidity": 80,
     "light": 550
 }
 
+# change environment state
+def set_environment(variable, value):
+    if variable in environment:
+        environment[variable] = value
+    else:
+        raise ValueError("Invalid environment variable %s", variable)
+    
+# get current environment state
+def get_environment():
+    return environment
+    
+# generate data for sensors
 def get_data(sensor):
     '''
     sensor -- type of sensor for which the data should be generated
