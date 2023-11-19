@@ -1,16 +1,28 @@
-''' main application, launching UI, function for processing data '''
+''' 
+Main Greenhouse Environment Controller code.
+Responsible for launching UI, processing data, and adjusting actuators
+'''
+
+from sensors import initialize_sensors
+
 def main():
-    # from sensors.py
-    initialize_sensors()
     # from actuators.py
-    initialize_actuators()
+    #initialize_actuators()
     # from gui.py
-    launch_gui()
+    #launch_gui()
+    
     # main loop 
     work()
 
 def work():
-    pass
+    #while True:
+    # get sensors in dictionary
+    sensors = initialize_sensors()
+    temperature_data = sensors["temperature"].get_data()
+    humidity_data = sensors["humidity"].get_data()
+    light_data = sensors["light"].get_data()
+    print(temperature_data, humidity_data, light_data)
+    
 
 if __name__ == "__main__":
     main()
