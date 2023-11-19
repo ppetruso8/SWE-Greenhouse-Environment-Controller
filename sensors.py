@@ -18,7 +18,7 @@ class HumiditySensor:
         return simulator.get_data("humidity")
 
 class LightSensor:
-    # ideal green light spectrum between 500 - 600nm
+    # ideal light spectrum between 600 - 700nm
     # get environment data created by simulator
     def get_data(self):
         return simulator.get_data("light")
