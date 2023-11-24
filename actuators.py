@@ -104,3 +104,13 @@ class Lights:
                     current_light = new_light
             
             self.env.set_environment("light", current_light)
+
+def initialize_actuators(environment):
+    heater = Heater(environment)
+    humidifier = Humidifier(environment)
+    lights = Lights(environment)
+    
+    # put actuators into the output dictionary
+    actuators = {"heater": heater, "humidifier": humidifier, "lights": lights}
+
+    return actuators
