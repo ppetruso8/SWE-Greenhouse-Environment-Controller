@@ -24,11 +24,20 @@ import random
 class Heater:
     def __init__(self, environment):
         self.env = environment
+        self.max = 40
+        self.min = 15
+
         # possible temperature change in one step
         self.change = 0.3
 
     def change_temp(self, target_temperature: float):
         current_temp = self.env.get_environment("temperature")
+
+        # temperature boundaries
+        if target_temperature > self.max:
+            target_temperature = self.max
+        elif target_temperature < self.min:
+            target_temperature = self.min
 
         # gradually change the temperature
         while current_temp != target_temperature:
@@ -52,11 +61,20 @@ class Heater:
 class Humidifier:
     def __init__(self, environment):
         self.env = environment
+        self.max = 100
+        self.min = 40
+
         # possible humidity change in one step
         self.change = 2
 
     def change_humidity(self, target_humidity: int):
         current_humidity = self.env.get_environment("humidity")
+
+        # humidity boundaries
+        if target_humidity > self.max:
+            target_humidity = self.max
+        elif target_humidity < self.min:
+            target_humidity = self.min
 
         # gradually change the humidity
         while current_humidity != target_humidity:
@@ -80,11 +98,20 @@ class Humidifier:
 class Lights:
     def __init__(self, environment):
         self.env = environment
+        self.max = 850
+        self.min = 100
+
         # possible light spectrum change in one step
         self.change = 10
 
     def change_light(self, target_light: int):
         current_light = self.env.get_environment("light")
+
+        # light spectrum boundaries
+        if target_light > self.max:
+            target_light = self.max
+        elif target_light < self.min:
+            target_light = self.min
 
         # gradually change the light
         while current_light != target_light:
