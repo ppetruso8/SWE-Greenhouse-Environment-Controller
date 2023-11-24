@@ -10,25 +10,40 @@ class TemperatureSensor:
     # ideal temperature between 21 to 27°C
     def __init__(self, environment):
         self.env = environment
+
     # get environment data created by simulator
     def get_data(self):
         return simulator.get_data("temperature", self.env)
+    
+    # get environment data from environment class instance
+    def get_data(self, environment):
+        return environment.get_environment("temperature")
 
 class HumiditySensor:
     # ideal humidity between 65-75% during night, 80% during day
     def __init__(self, environment):
         self.env = environment
+
     # get environment data created by simulator
     def get_data(self):
         return simulator.get_data("humidity", self.env)
+    
+    # get environment data from environment class instance
+    def get_data(self, environment):
+        return environment.get_environment("humidity")
 
 class LightSensor:
     # ideal light spectrum between 600 - 700nm
     def __init__(self, environment):
         self.env = environment
+
     # get environment data created by simulator
     def get_data(self):
         return simulator.get_data("light", self.env)
+    
+    # get environment data from environment class instance
+    def get_data(self, environment):
+        return environment.get_environment("light")
 
 def initialize_sensors(environment):
     temperature_sensor = TemperatureSensor(environment)
