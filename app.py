@@ -4,6 +4,7 @@ Responsible for launching UI, processing data, and adjusting actuators
 '''
 
 from sensors import initialize_sensors
+from actuators import initialize_actuators
 
 class Environment():
     '''
@@ -42,22 +43,22 @@ def main():
     # create environment
     environment = Environment(25.0,60,550)
 
-    # from actuators.py
-    # initialize_actuators()
+    sensors = initialize_sensors()
+    actuators = initialize_actuators(environment)
 
     # from gui.py
     #launch_gui()
     
     # main loop 
-    work(environment)
+    work(environment, sensors, actuators)
 
-def work(env):
+def work(env, sensors, actuators):
     #while True:
     # get sensors in dictionary
-    sensors = initialize_sensors()
     temperature_data = sensors["temperature"].get_data(env)
     humidity_data = sensors["humidity"].get_data(env)
     light_data = sensors["light"].get_data(env)
+
     print(temperature_data, humidity_data, light_data)
     
 
