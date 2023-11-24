@@ -1,5 +1,6 @@
 '''
 Module containing sensors classes.
+
 Sensors get data from simulator, process them and send data to the controller.
 '''
 

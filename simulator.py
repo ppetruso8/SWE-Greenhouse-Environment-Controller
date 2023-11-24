@@ -1,5 +1,5 @@
 '''
-Simulator simulating greenhouse environment and generating sensor readings of environment variables.
+Simulator generating sensor readings of environment variables.
 '''
 
 import random
