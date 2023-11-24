@@ -54,12 +54,18 @@ def main():
 
 def work(env, sensors, actuators):
     #while True:
-    # get sensors in dictionary
-    temperature_data = sensors["temperature"].get_data()
-    humidity_data = sensors["humidity"].get_data()
-    light_data = sensors["light"].get_data()
+    
+    # temporary for loop to simulate environment
+    i = 0
+    for i in range(20):
+        # get sensors in dictionary
+        temperature_data = sensors["temperature"].get_data()
+        humidity_data = sensors["humidity"].get_data()
+        light_data = sensors["light"].get_data()
 
-    print(temperature_data, humidity_data, light_data)
+        print(temperature_data, humidity_data, light_data)
+
+        i += 1
     
 
 if __name__ == "__main__":
