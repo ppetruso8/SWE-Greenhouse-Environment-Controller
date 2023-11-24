@@ -43,7 +43,7 @@ def main():
     # create environment
     environment = Environment(25.0,60,550)
 
-    sensors = initialize_sensors()
+    sensors = initialize_sensors(environment)
     actuators = initialize_actuators(environment)
 
     # from gui.py
@@ -55,9 +55,9 @@ def main():
 def work(env, sensors, actuators):
     #while True:
     # get sensors in dictionary
-    temperature_data = sensors["temperature"].get_data(env)
-    humidity_data = sensors["humidity"].get_data(env)
-    light_data = sensors["light"].get_data(env)
+    temperature_data = sensors["temperature"].get_data()
+    humidity_data = sensors["humidity"].get_data()
+    light_data = sensors["light"].get_data()
 
     print(temperature_data, humidity_data, light_data)
     
