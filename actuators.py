@@ -47,7 +47,7 @@ class Heater:
         if type(target_temperature) != float:
             raise TypeError("Target temperature must be passed in as a float.")
 
-        current_temp = self.env.get_environment("temperature")
+        current_temp = self.env.get_environment_variable("temperature")
 
         # temperature boundaries
         if target_temperature > self.max:
@@ -104,7 +104,7 @@ class Humidifier:
         if type(target_humidity) != int:
             raise TypeError("Target humidity must be passed in as an integer.")
         
-        current_humidity = self.env.get_environment("humidity")
+        current_humidity = self.env.get_environment_variable("humidity")
 
         # humidity boundaries
         if target_humidity > self.max:
@@ -161,7 +161,7 @@ class Lights:
         if type(target_light) != int:
             raise TypeError("Target light spectrum value must be passed in as an integer.")
         
-        current_light = self.env.get_environment("light")
+        current_light = self.env.get_environment_variable("light")
 
         # light spectrum boundaries
         if target_light > self.max:
