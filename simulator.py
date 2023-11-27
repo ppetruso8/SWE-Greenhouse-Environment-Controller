@@ -26,9 +26,9 @@ def get_data(sensor: str, environment):
     else:
         change = random.randint(-changes[sensor], changes[sensor])
 
-    updated_value = environment.get_environment(sensor) + change
+    updated_value = environment.get_environment_variable(sensor) + change
 
-    # apply boundaries to the environmental variable values and apply changes
+    # apply boundaries to the environmental variable values
     if sensor == "temperature":
         if updated_value > 40:
             environment.set_environment(sensor, 40.0)
@@ -45,6 +45,7 @@ def get_data(sensor: str, environment):
         elif updated_value < 100:
             environment.set_environment(sensor, 100)
 
+    # apply changes to environment
     environment.set_environment(sensor, updated_value)        
 
     # return generated data

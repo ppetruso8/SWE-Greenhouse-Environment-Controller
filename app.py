@@ -33,7 +33,7 @@ class Environment():
         return self.environment
     
     # get current environment variable state
-    def get_environment(self, variable: str):
+    def get_environment_variable(self, variable: str):
         '''
         variable -- name of the environment variable
         '''
@@ -59,9 +59,9 @@ def work(env, sensors, actuators):
     i = 0
     for i in range(20):
         # get sensors in dictionary
-        temperature_data = sensors["temperature"].get_data()
-        humidity_data = sensors["humidity"].get_data()
-        light_data = sensors["light"].get_data()
+        temperature_data = sensors["temperature"].get_simulator_data()
+        humidity_data = sensors["humidity"].get_simulator_data()
+        light_data = sensors["light"].get_simulator_data()
 
         print(temperature_data, humidity_data, light_data)
 
