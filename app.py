@@ -20,6 +20,17 @@ class Environment():
         humidity -- initial humidity of environment
         light -- initial light spectrum of environment
         '''
+        if type(temp) == int:
+            temp = float(temp)
+        elif type(temp) != float:
+            raise TypeError("Temperature of environment must be passed in as a float")
+        
+        if type(humidity) != int:
+            raise TypeError("Humidity of environment must be passed in as an integer")
+        
+        if type(light) != int:
+            raise TypeError("Light spectrum value of environment must be passed in as an integer")
+
         self.environment = {
             "temperature": temp,
             "humidity": humidity,
@@ -32,6 +43,9 @@ class Environment():
         variable -- environment variable
         value -- value to update the variable
         '''
+        if type(variable) != str:
+            raise TypeError("Environment variable must be passed in as a string")
+
         if variable in self.environment:
             self.environment[variable] = value
         else:

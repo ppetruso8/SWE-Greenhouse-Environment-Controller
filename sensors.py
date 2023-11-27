@@ -28,7 +28,7 @@ class TemperatureSensor:
         try:
             return simulator.get_simulator_data("temperature", self.env)
         except Exception as e:
-            print("Error fetching temperature data from simulator: %s" & e)
+            print("Error fetching temperature data from simulator: %s" % e)
             return None
     
     # get environment data from environment class instance
