@@ -35,7 +35,7 @@ class Environment():
         if variable in self.environment:
             self.environment[variable] = value
         else:
-            raise ValueError("Invalid environment variable %s", variable)
+            raise ValueError("Invalid environment variable %s" % variable)
     
     def get_environment(self):
         ''' Get the current state of the environment
@@ -66,7 +66,7 @@ def main():
         # main control loop 
         work(environment, sensors, actuators)
     except Exception as e:
-        print("An error has ocurred in main: %s", e)
+        print("An error has ocurred in main: %s" % e)
 
 def work(env, sensors: dict, actuators: dict):
     ''' Main control loop to simulate greenhouse environment
@@ -90,7 +90,7 @@ def work(env, sensors: dict, actuators: dict):
 
             i += 1
     except Exception as e:
-        print("An error has ocurred in main control loop: %s", e)
+        print("An error has ocurred in main control loop: %s" % e)
     
 if __name__ == "__main__":
     main()
