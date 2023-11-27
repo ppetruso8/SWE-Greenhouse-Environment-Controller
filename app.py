@@ -49,7 +49,7 @@ class Environment():
         if variable in self.environment:
             self.environment[variable] = value
         else:
-            raise ValueError("Invalid environment variable %s" % variable)
+            raise ValueError("Invalid environment variable: %s" % variable)
     
     def get_environment(self):
         ''' Get the current state of the environment
@@ -61,7 +61,10 @@ class Environment():
 
         variable -- name of the environment variable
         '''
-        return self.environment[variable]
+        if variable in self.environment:
+            return self.environment[variable]
+        else:
+            raise ValueError("Invalid environment variable: %s" % variable)
 
 def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
