@@ -52,18 +52,21 @@ class Environment():
 def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
     '''
-    # create environment
-    environment = Environment(25.0,60,550)
+    try:
+        # create environment
+        environment = Environment(25.0,60,550)
 
-    # initialize sensors and actuators
-    sensors = initialize_sensors(environment)
-    actuators = initialize_actuators(environment)
+        # initialize sensors and actuators
+        sensors = initialize_sensors(environment)
+        actuators = initialize_actuators(environment)
 
-    # from gui.py
-    #launch_gui()
-    
-    # main control loop 
-    work(environment, sensors, actuators)
+        # from gui.py
+        #launch_gui()
+        
+        # main control loop 
+        work(environment, sensors, actuators)
+    except Exception as e:
+        print("An error has ocurred in main: %s", e)
 
 def work(env, sensors: dict, actuators: dict):
     ''' Main control loop to simulate greenhouse environment
@@ -76,15 +79,18 @@ def work(env, sensors: dict, actuators: dict):
     
     # temporary for loop to simulate environment
     i = 0
-    for i in range(20):
-        # get sensors in dictionary
-        temperature_data = sensors["temperature"].get_simulator_data()
-        humidity_data = sensors["humidity"].get_simulator_data()
-        light_data = sensors["light"].get_simulator_data()
+    try:
+        for i in range(20):
+            # get sensors in dictionary
+            temperature_data = sensors["temperature"].get_simulator_data()
+            humidity_data = sensors["humidity"].get_simulator_data()
+            light_data = sensors["light"].get_simulator_data()
 
-        print(temperature_data, humidity_data, light_data)
+            print(temperature_data, humidity_data, light_data)
 
-        i += 1
+            i += 1
+    except Exception as e:
+        print("An error has ocurred in main control loop: %s", e)
     
 if __name__ == "__main__":
     main()

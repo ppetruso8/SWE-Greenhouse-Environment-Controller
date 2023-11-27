@@ -25,7 +25,11 @@ class TemperatureSensor:
     def get_simulator_data(self):
         ''' Fetch current environment temperature data from simulator
         '''
-        return simulator.get_simulator_data("temperature", self.env)
+        try:
+            return simulator.get_simulator_data("temperature", self.env)
+        except Exception as e:
+            print("Error fetching temperature data from simulator: %s", e)
+            return None
     
     # get environment data from environment class instance
     def get_environment_data(self, environment):
@@ -33,7 +37,11 @@ class TemperatureSensor:
 
        environment -- environment instance
        '''
-       return environment.get_environment_variable("temperature")
+       try:
+            return environment.get_environment_variable("temperature")
+       except Exception as e:
+            print("Error fetching temperature data from environment: %s", e)
+            return None
 
 class HumiditySensor:
     ''' Sensor class for sensing the temperature in the environment 
@@ -53,14 +61,22 @@ class HumiditySensor:
     def get_simulator_data(self):
         ''' Fetch current environment humidity data from simulator
         '''
-        return simulator.get_simulator_data("humidity", self.env)
+        try:
+            return simulator.get_simulator_data("humidity", self.env)
+        except Exception as e:
+            print("Error fetching humidity data from simulator: %s", e)
+            return None
     
     def get_environment_data(self, environment):
        ''' Fetch current environment humidity data directly from environment
 
        environment -- environment instance
        '''
-       return environment.get_environment_variable("humidity")
+       try:
+            return environment.get_environment_variable("humidity")
+       except Exception as e:
+            print("Error fetching humidity data from environment: %s", e)
+            return None
 
 class LightSensor:
     ''' Sensor class for sensing the temperature in the environment 
@@ -80,14 +96,22 @@ class LightSensor:
     def get_simulator_data(self):
         ''' Fetch current light spectrum data from simulator
         '''
-        return simulator.get_simulator_data("light", self.env)
+        try:
+            return simulator.get_simulator_data("light", self.env)
+        except Exception as e:
+            print("Error fetching light spectrum data from simulator: %s", e)
+            return None
     
     def get_environment_data(self, environment):
        ''' Fetch current environment light spectrum data directly from environment
 
        environment -- environment instance
        '''
-       return environment.get_environment_variable("light")
+       try:
+            return environment.get_environment_variable("light")
+       except Exception as e:
+            print("Error fetching light spectrum data from environment: %s", e)
+            return None
 
 def initialize_sensors(environment):
     ''' Create an instance of each sensor and return dictionary of sensor objects

@@ -41,6 +41,12 @@ class Heater:
 
         target_temperature -- desired temperature to reach
         '''
+        if type(target_temperature) == int:
+            target_temperature = float(target_temperature)
+
+        if type(target_temperature) != float:
+            raise TypeError("Target temperature must be passed in as a float.")
+
         current_temp = self.env.get_environment("temperature")
 
         # temperature boundaries
@@ -66,7 +72,10 @@ class Heater:
                 else:
                     current_temp = new_temp
             
-            self.env.set_environment("temperature", current_temp)
+            try:
+                self.env.set_environment("temperature", current_temp)
+            except Exception as e:
+                print("Heater: error encountered while updating environment: %s", e)
 
 class Humidifier:
     ''' Actuator class for controlling humidity of environment
@@ -92,6 +101,9 @@ class Humidifier:
 
         target_humidity -- desired humidity to reach
         '''
+        if type(target_humidity) != int:
+            raise TypeError("Target humidity must be passed in as an integer.")
+        
         current_humidity = self.env.get_environment("humidity")
 
         # humidity boundaries
@@ -117,7 +129,10 @@ class Humidifier:
                 else:
                     current_humidity = new_humidity
             
-            self.env.set_environment("humidity", current_humidity)
+            try:
+                self.env.set_environment("humidity", current_humidity)
+            except Exception as e:
+                print("Humidifier: error encountered while updating environment: %s", e)
 
 class Lights:
     ''' Actuator class for controlling light spectrum of environment
@@ -143,6 +158,9 @@ class Lights:
 
         target_light -- desired light spectrum value to reach
         '''
+        if type(target_light) != int:
+            raise TypeError("Target light spectrum value must be passed in as an integer.")
+        
         current_light = self.env.get_environment("light")
 
         # light spectrum boundaries
@@ -168,7 +186,10 @@ class Lights:
                 else:
                     current_light = new_light
             
-            self.env.set_environment("light", current_light)
+            try:
+                self.env.set_environment("light", current_light)
+            except Exception as e:
+                print("Lights: error encountered while updating environment: %s", e)
 
 def initialize_actuators(environment):
     heater = Heater(environment)
