@@ -124,7 +124,7 @@ class TestSensors(unittest.TestCase):
 
         simulator_data = light_sensor.get_simulator_data()
         self.assertEqual(simulator_data, env.get_environment_variable("light"), "error fetching light spectrum data from simulator")
-        
+
         env_data = light_sensor.get_environment_data(env)
         self.assertEqual(env_data, env.get_environment_variable("light"), "error fetching light spectrum data from environment")  
 
@@ -211,6 +211,8 @@ class TestActuators(unittest.TestCase):
         self.assertEqual(env.get_environment_variable("light"), 850, "lights do not handle out-of-boundary input value")
         lights.change_light(20)
         self.assertEqual(env.get_environment_variable("light"), 100, "lights do not handle out-of-boundary input value")
+
+#class TestUserInput(unitTest.TestCase):
 
 
 if __name__ == '__main__':
