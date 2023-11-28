@@ -98,6 +98,7 @@ class TestSensors(unittest.TestCase):
         self.assertTrue(0 <= env_data <= 850, "error fetching light sensor data from environment")
 
 class TestActuators(unittest.TestCase):
+    #NOTE: add test to see what happens when user inputs value out of boundaries
     def test_heater(self):
         '''
         Test that heater updates the environment
