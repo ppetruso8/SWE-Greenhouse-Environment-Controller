@@ -28,6 +28,19 @@ class TestEnvironment(unittest.TestCase):
         env.set_environment("light", 600)
         self.assertEqual(env.get_environment_variable("light"), 600, "light spectrum change failure")
 
+    def test_initialization_invalid_input(self):
+        '''
+        Test if exception is raised when invalid value type is passed while creating Environment instance
+        '''
+        with self.assertRaises(TypeError):
+            env1 = Environment("x", 60, 550)
+            env2 = Environment(25.0, "x", 550)
+            env3 = Environment(25.0, 60, "x")
+
+        # test if temperature is passed as integer instead of float
+        env = Environment(25, 60, 550)
+        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, "integer temperature is not converted to float during environment initialization")
+
     def test_setting_environment_invalid_input(self):
         '''
         Test that the appropriate exception is raised when invalid input is passed in while changing environment factor's value
@@ -35,10 +48,10 @@ class TestEnvironment(unittest.TestCase):
         env = Environment(25.0, 60, 550)
 
         with self.assertRaises(TypeError):
-            env.set_environment(1, "x")
+            env.set_environment(1, 25)
 
         with self.assertRaises(ValueError):
-            env.set_environment("x", 1)
+            env.set_environment("x", 25)
 
     def test_getting_variable_invalid_input(self):
         '''
@@ -48,6 +61,10 @@ class TestEnvironment(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             env.get_environment_variable("x")
+
+        with self.assertRaises(TypeError):
+            env.get_environment_variable(2)
+        
 
 class TestSimulator(unittest.TestCase):
     def test_simulate_data(self):
@@ -71,9 +88,9 @@ class TestSensors(unittest.TestCase):
         env = Environment(25.0, 60, 550)
         temp_sensor = TemperatureSensor(env)
         simulator_data = temp_sensor.get_simulator_data()
-        self.assertTrue(15.0 <= simulator_data <= 40.0, "error fetching temperature data from simulator")
+        self.assertEqual(simulator_data, env.get_environment_variable("temperature"), "error fetching temperature data from simulator")
         env_data = temp_sensor.get_environment_data(env)
-        self.assertTrue(15.0 <= env_data <= 40.0, "error fetching temperature data from environment")
+        self.assertEqual(env_data, env.get_environment_variable("temperature"), "error fetching temperature data from environment")
 
     def test_humidity_sensor(self):
         '''
@@ -82,9 +99,9 @@ class TestSensors(unittest.TestCase):
         env = Environment(25.0, 60, 550)
         humidity_sensor = HumiditySensor(env)
         simulator_data = humidity_sensor.get_simulator_data()
-        self.assertTrue(40 <= simulator_data <= 100, "error fetching humidity data from simulator")
+        self.assertEqual(simulator_data, env.get_environment_variable("humidity"), "error fetching humidity data from simulator")
         env_data = humidity_sensor.get_environment_data(env)
-        self.assertTrue(40 <= env_data <= 100, "error fetching humidity data from environment")
+        self.assertEqual(env_data, env.get_environment_variable("humidity"), "error fetching humidity data from environment")       
 
     def test_light_sensor(self):
         '''
@@ -93,9 +110,9 @@ class TestSensors(unittest.TestCase):
         env = Environment(25.0, 60, 550)
         light_sensor = LightSensor(env)
         simulator_data = light_sensor.get_simulator_data()
-        self.assertTrue(0 <= simulator_data <= 850, "error fetching light spectrum data from simulator")
+        self.assertEqual(simulator_data, env.get_environment_variable("light"), "error fetching light spectrum data from simulator")
         env_data = light_sensor.get_environment_data(env)
-        self.assertTrue(0 <= env_data <= 850, "error fetching light sensor data from environment")
+        self.assertEqual(env_data, env.get_environment_variable("light"), "error fetching light spectrum data from environment")  
 
 class TestActuators(unittest.TestCase):
     #NOTE: add test to see what happens when user inputs value out of boundaries
@@ -131,7 +148,7 @@ class TestActuators(unittest.TestCase):
 
     def test_heater_invalid_input(self):
         '''
-        Test if appropriate exception is raised when invalid parameter is passed in to change_temp
+        Test if heater handles invalid parameter being passed to change_temp
         '''
         env = Environment(25.0, 60, 550)
         heater = Heater(env)
@@ -139,9 +156,19 @@ class TestActuators(unittest.TestCase):
         with self.assertRaises(TypeError):
             heater.change_temp("x")
 
+        # test heater being passed value out of boundaries
+        heater.change_temp(100.0)
+        self.assertEqual(env.get_environment_variable("temperature"), 40.0, "heater does not handle out-of-boundary input value")
+        heater.change_temp(10.0)
+        self.assertEqual(env.get_environment_variable("temperature"), 15.0, "heater does not handle out-of-boundary input value")
+
+        # test heater being passed integer for temperature instead of float
+        heater.change_temp(20)
+        self.assertEqual(env.get_environment_variable("temperature"), 20.0, "heater does not convert float to integer")
+
     def test_humidifier_invalid_input(self):
         '''
-        Test if appropriate exception is raised when invalid parameter is passed in to change_humidity
+        Test if humidifier handles invalid parameter being passed to change_humidity
         '''
         env = Environment(25.0, 60, 550)
         humidifier = Humidifier(env)
@@ -149,15 +176,28 @@ class TestActuators(unittest.TestCase):
         with self.assertRaises(TypeError):
             humidifier.change_humidity("x")
 
+        # test humidifier being passed value out of boundaries
+        humidifier.change_humidity(150)
+        self.assertEqual(env.get_environment_variable("humidity"), 100, "humidifier does not handle out-of-boundary input value")
+        humidifier.change_humidity(20)
+        self.assertEqual(env.get_environment_variable("humidity"), 40, "humidifier does not handle out-of-boundary input value")
+
     def test_lights_invalid_input(self):
         '''
-        Test if appropriate exception is raised when invalid parameter is passed in to change_light
+        Test if lights handle invalid parameter being passed to change_light
         '''
         env = Environment(25.0, 60, 550)
         lights = Lights(env)
 
         with self.assertRaises(TypeError):
             lights.change_light("x")
+
+        # test lights being passed value out of boundaries
+        lights.change_light(900)
+        self.assertEqual(env.get_environment_variable("light"), 850, "lights do not handle out-of-boundary input value")
+        lights.change_light(20)
+        self.assertEqual(env.get_environment_variable("light"), 100, "lights do not handle out-of-boundary input value")
+
 
 if __name__ == '__main__':
     unittest.main()

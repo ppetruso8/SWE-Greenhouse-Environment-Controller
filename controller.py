@@ -62,6 +62,9 @@ class Environment():
 
         variable -- name of the environment variable
         '''
+        if type(variable) != str:
+            raise TypeError("Environment variable must be passed in as a string")
+
         if variable in self.environment:
             return self.environment[variable]
         else:
