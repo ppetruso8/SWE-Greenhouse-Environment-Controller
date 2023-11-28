@@ -32,8 +32,8 @@ class Heater:
         environment -- environment instance
         '''
         self.env = environment
-        self.max = 40
-        self.min = 15
+        self.max = 40.0
+        self.min = 15.0
         self.change = 0.3
 
     def change_temp(self, target_temperature: float):
