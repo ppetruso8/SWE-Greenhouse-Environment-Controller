@@ -11,7 +11,9 @@ class TestEnvironment(unittest.TestCase):
         Test that the environment is initialized with passed in values
         '''
         env = Environment(25.0, 60, 550)
+
         self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, "environment not initialized correctly")
+
         self.assertEqual(env.get_environment_variable("temperature"), 25.0, "temperature not initialized correctly")
         self.assertEqual(env.get_environment_variable("humidity"), 60, "humidity not initialized correctly")
         self.assertEqual(env.get_environment_variable("light"), 550, "lights not initialized correctly")
@@ -21,10 +23,13 @@ class TestEnvironment(unittest.TestCase):
         Test that it is possible to change the environment factor's value 
         '''
         env = Environment(25.0, 60, 550)
+    
         env.set_environment("temperature", 20.5)
         self.assertEqual(env.get_environment_variable("temperature"), 20.5, "temperature change failure")
+
         env.set_environment("humidity", 70)
         self.assertEqual(env.get_environment_variable("humidity"), 70, "humidity change failure")
+
         env.set_environment("light", 600)
         self.assertEqual(env.get_environment_variable("light"), 600, "light spectrum change failure")
 
@@ -72,11 +77,14 @@ class TestSimulator(unittest.TestCase):
         Test that the simulated data is within boundaries
         '''
         env = Environment(25.0, 60, 550)
+
         simulated_temp = get_simulator_data("temperature", env)
         self.assertGreaterEqual(simulated_temp, 15.0, "simulated temperature is less than 15.0")
         self.assertLessEqual(simulated_temp, 40.0, "simulated temperature is higher than 40.0")
+
         simulated_humidity = get_simulator_data("humidity", env)
         self.assertIn(simulated_humidity, range(40, 101), "simulated humidity is not within boundaries")
+
         simulated_light = get_simulator_data("light", env)
         self.assertIn(simulated_light, range(0, 851), "simulated light spectrum level is not within boundaries")
 
@@ -87,8 +95,10 @@ class TestSensors(unittest.TestCase):
         '''
         env = Environment(25.0, 60, 550)
         temp_sensor = TemperatureSensor(env)
+
         simulator_data = temp_sensor.get_simulator_data()
         self.assertEqual(simulator_data, env.get_environment_variable("temperature"), "error fetching temperature data from simulator")
+
         env_data = temp_sensor.get_environment_data(env)
         self.assertEqual(env_data, env.get_environment_variable("temperature"), "error fetching temperature data from environment")
 
@@ -98,8 +108,10 @@ class TestSensors(unittest.TestCase):
         '''
         env = Environment(25.0, 60, 550)
         humidity_sensor = HumiditySensor(env)
+
         simulator_data = humidity_sensor.get_simulator_data()
         self.assertEqual(simulator_data, env.get_environment_variable("humidity"), "error fetching humidity data from simulator")
+
         env_data = humidity_sensor.get_environment_data(env)
         self.assertEqual(env_data, env.get_environment_variable("humidity"), "error fetching humidity data from environment")       
 
@@ -109,8 +121,10 @@ class TestSensors(unittest.TestCase):
         '''
         env = Environment(25.0, 60, 550)
         light_sensor = LightSensor(env)
+
         simulator_data = light_sensor.get_simulator_data()
         self.assertEqual(simulator_data, env.get_environment_variable("light"), "error fetching light spectrum data from simulator")
+        
         env_data = light_sensor.get_environment_data(env)
         self.assertEqual(env_data, env.get_environment_variable("light"), "error fetching light spectrum data from environment")  
 
