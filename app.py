@@ -6,6 +6,7 @@ and managing the main loop for controlling the system.
 
 from sensors import initialize_sensors
 from actuators import initialize_actuators
+# from gui import update_gui, initialize_gui
 
 class Environment():
     ''' Class representing the greenhouse environment
@@ -77,8 +78,7 @@ def main():
         sensors = initialize_sensors(environment)
         actuators = initialize_actuators(environment)
 
-        # from gui.py
-        #launch_gui()
+        # initialize_gui(environment)
         
         # main control loop 
         work(environment, sensors, actuators)
@@ -92,11 +92,10 @@ def work(env, sensors: dict, actuators: dict):
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
     '''
-    #while True:
-    
     # temporary for loop to simulate environment
     i = 0
     try:
+        #while True:
         for i in range(20):
             # get sensors in dictionary
             temperature_data = sensors["temperature"].get_simulator_data()
@@ -104,10 +103,30 @@ def work(env, sensors: dict, actuators: dict):
             light_data = sensors["light"].get_simulator_data()
 
             print(temperature_data, humidity_data, light_data)
+            
+            # user_input = get_user_input()
+            # if user_input != None:
+            #   actuators["heater"].change_temp(user_input[0])
+            #   actuators["humidifier"].change_humidity(user_input[1])
+            #   actuators["lights"].change_light(user_input[2])
+
+            # update_gui()
 
             i += 1
     except Exception as e:
         print("An error has ocurred in main control loop: %s" % e)
+
+# def get_user_input():
+''' Get user input from GUI
+
+returns user_input as a list where
+list[0] = temperature
+list[1] = humidity
+list[2] = light
+'''
+#   code
+#   return user_input
+
     
 if __name__ == "__main__":
     main()
