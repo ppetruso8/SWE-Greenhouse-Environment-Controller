@@ -1,6 +1,6 @@
 '''testing and validation'''
 import unittest
-from app import Environment
+from controller import Environment
 from simulator import get_simulator_data
 from sensors import TemperatureSensor, HumiditySensor, LightSensor
 from actuators import Heater, Humidifier, Lights
