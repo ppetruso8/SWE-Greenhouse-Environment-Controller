@@ -110,18 +110,5 @@ class LightSensor:
        try:
             return environment.get_environment_variable("light")
        except Exception as e:
-            print("Error fetching light spectrum data from environment: %s", e)
+            print("Error fetching light spectrum data from environment: %s" % e)
             return None
-
-def initialize_sensors(environment):
-    ''' Create an instance of each sensor and return dictionary of sensor objects
-    
-    environment -- environment instance
-    '''
-    temperature_sensor = TemperatureSensor(environment)
-    humidity_sensor = HumiditySensor(environment)
-    light_sensor = LightSensor(environment)
-    
-    sensors = {"temperature": temperature_sensor, "humidity": humidity_sensor, "light": light_sensor}
-
-    return sensors

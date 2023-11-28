@@ -2,10 +2,12 @@
 Main Greenhouse Environment Controller code.
 Responsible for initializing the greenhouse environment, sensors, actuators, GUI,
 and managing the main loop for controlling the system.
+After user requests to change the environment state, controller is responsible for
+managing actuators and maintenance of the final state.
 '''
 
-from sensors import initialize_sensors
-from actuators import initialize_actuators
+from sensors import TemperatureSensor, HumiditySensor, LightSensor
+from actuators import Heater, Humidifier, Lights
 
 class Environment():
     ''' Class representing the greenhouse environment
@@ -47,7 +49,18 @@ class Environment():
 
         variable -- name of the environment variable
         '''
-        return self.environment[variable]
+        if variable in self.environment:
+            return self.environment[variable]
+        else:
+            raise ValueError("Invalid environment variable: %s" % variable)
+        
+def get_user_input():
+    # code for getting the user input from GUI
+    # if user_input:
+    #   return user_input
+    # else:
+    #   return None
+    pass
 
 def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
@@ -75,11 +88,10 @@ def work(env, sensors: dict, actuators: dict):
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
     '''
-    #while True:
-    
     # temporary for loop to simulate environment
     i = 0
     try:
+        #while True:
         for i in range(20):
             # get sensors in dictionary
             temperature_data = sensors["temperature"].get_simulator_data()
@@ -88,9 +100,40 @@ def work(env, sensors: dict, actuators: dict):
 
             print(temperature_data, humidity_data, light_data)
 
+            # user_input = get_user_input()
+
+            # change environment variables to user setting and maintain the state
+            # if user_input != None:
+            #   actuators["heater"].change_temp(user_input[0])
+            #   actuators["humidifier"].change_humidity(user_input[1])
+            #   actuators["light"].change_light(user_input[2])
+
             i += 1
     except Exception as e:
-        print("An error has ocurred in main control loop: %s", e)
+        print("An error has ocurred in main control loop: %s" % e)
+
+def initialize_sensors(environment):
+    ''' Create an instance of each sensor and return dictionary of sensor objects
+    
+    environment -- environment instance
+    '''
+    temperature_sensor = TemperatureSensor(environment)
+    humidity_sensor = HumiditySensor(environment)
+    light_sensor = LightSensor(environment)
+    
+    sensors = {"temperature": temperature_sensor, "humidity": humidity_sensor, "light": light_sensor}
+
+    return sensors
+
+def initialize_actuators(environment):
+    heater = Heater(environment)
+    humidifier = Humidifier(environment)
+    lights = Lights(environment)
+    
+    # put actuators into the output dictionary
+    actuators = {"heater": heater, "humidifier": humidifier, "lights": lights}
+
+    return actuators
     
 if __name__ == "__main__":
     main()
