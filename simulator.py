@@ -24,7 +24,7 @@ def get_simulator_data(sensor: str, environment):
         raise TypeError("Sensor type must be passed in as a string.")
     
     if sensor not in changes:
-        raise ValueError("Sensor type %s is not valid.", sensor)
+        raise ValueError("Sensor type %s is not valid." % sensor)
 
     
     # calculate a random change for appropriate sensor and calculate updated value
@@ -49,14 +49,14 @@ def get_simulator_data(sensor: str, environment):
     elif sensor == "light":
         if updated_value > 850:
             environment.set_environment(sensor, 850)
-        elif updated_value < 100:
-            environment.set_environment(sensor, 100)
+        elif updated_value < 0:
+            environment.set_environment(sensor, 0)
 
     try:
         # update environment with new value
         environment.set_environment(sensor, updated_value)
     except Exception as e:
-        print("Simulator: error encountered while updating environment: %s", e)        
+        print("Simulator: error encountered while updating environment: %s" % e)        
 
     # return generated data
     return updated_value

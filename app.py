@@ -22,6 +22,17 @@ class Environment():
         humidity -- initial humidity of environment
         light -- initial light spectrum of environment
         '''
+        if type(temp) == int:
+            temp = float(temp)
+        elif type(temp) != float:
+            raise TypeError("Temperature of environment must be passed in as a float")
+        
+        if type(humidity) != int:
+            raise TypeError("Humidity of environment must be passed in as an integer")
+        
+        if type(light) != int:
+            raise TypeError("Light spectrum value of environment must be passed in as an integer")
+
         self.environment = {
             "temperature": temp,
             "humidity": humidity,
@@ -34,10 +45,13 @@ class Environment():
         variable -- environment variable
         value -- value to update the variable
         '''
+        if type(variable) != str:
+            raise TypeError("Environment variable must be passed in as a string")
+
         if variable in self.environment:
             self.environment[variable] = value
         else:
-            raise ValueError("Invalid environment variable %s", variable)
+            raise ValueError("Invalid environment variable: %s" % variable)
     
     def get_environment(self):
         ''' Get the current state of the environment
@@ -79,7 +93,7 @@ def main():
         # main control loop 
         work(environment, sensors, actuators)
     except Exception as e:
-        print("An error has ocurred in main: %s", e)
+        print("An error has ocurred in main: %s" % e)
 
 def work(env, sensors: dict, actuators: dict):
     ''' Main control loop to simulate greenhouse environment
