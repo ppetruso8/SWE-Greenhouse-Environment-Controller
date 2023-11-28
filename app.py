@@ -4,8 +4,8 @@ Responsible for initializing the greenhouse environment, sensors, actuators, GUI
 and managing the main loop for controlling the system.
 '''
 
-from sensors import initialize_sensors
-from actuators import initialize_actuators
+from sensors import TemperatureSensor, LightSensor, HumiditySensor
+from actuators import Heater, Humidifier, Lights
 # from gui import update_gui, initialize_gui
 
 class Environment():
@@ -127,6 +127,28 @@ list[2] = light
 #   code
 #   return user_input
 
+def initialize_sensors(environment):
+    ''' Create an instance of each sensor and return dictionary of sensor objects
+    
+    environment -- environment instance
+    '''
+    temperature_sensor = TemperatureSensor(environment)
+    humidity_sensor = HumiditySensor(environment)
+    light_sensor = LightSensor(environment)
+    
+    sensors = {"temperature": temperature_sensor, "humidity": humidity_sensor, "light": light_sensor}
+
+    return sensors
+
+def initialize_actuators(environment):
+    heater = Heater(environment)
+    humidifier = Humidifier(environment)
+    lights = Lights(environment)
+    
+    # put actuators into the output dictionary
+    actuators = {"heater": heater, "humidifier": humidifier, "lights": lights}
+
+    return actuators
     
 if __name__ == "__main__":
     main()
