@@ -28,7 +28,7 @@ class TemperatureSensor:
         try:
             return simulator.get_simulator_data("temperature", self.env)
         except Exception as e:
-            print("Error fetching temperature data from simulator: %s", e)
+            print("Error fetching temperature data from simulator: %s" % e)
             return None
     
     # get environment data from environment class instance
@@ -40,7 +40,7 @@ class TemperatureSensor:
        try:
             return environment.get_environment_variable("temperature")
        except Exception as e:
-            print("Error fetching temperature data from environment: %s", e)
+            print("Error fetching temperature data from environment: %s" % e)
             return None
 
 class HumiditySensor:
@@ -64,7 +64,7 @@ class HumiditySensor:
         try:
             return simulator.get_simulator_data("humidity", self.env)
         except Exception as e:
-            print("Error fetching humidity data from simulator: %s", e)
+            print("Error fetching humidity data from simulator: %s" % e)
             return None
     
     def get_environment_data(self, environment):
@@ -75,7 +75,7 @@ class HumiditySensor:
        try:
             return environment.get_environment_variable("humidity")
        except Exception as e:
-            print("Error fetching humidity data from environment: %s", e)
+            print("Error fetching humidity data from environment: %s" % e)
             return None
 
 class LightSensor:
@@ -99,7 +99,7 @@ class LightSensor:
         try:
             return simulator.get_simulator_data("light", self.env)
         except Exception as e:
-            print("Error fetching light spectrum data from simulator: %s", e)
+            print("Error fetching light spectrum data from simulator: %s" % e)
             return None
     
     def get_environment_data(self, environment):
@@ -110,7 +110,7 @@ class LightSensor:
        try:
             return environment.get_environment_variable("light")
        except Exception as e:
-            print("Error fetching light spectrum data from environment: %s", e)
+            print("Error fetching light spectrum data from environment: %s" % e)
             return None
 
 def initialize_sensors(environment):
