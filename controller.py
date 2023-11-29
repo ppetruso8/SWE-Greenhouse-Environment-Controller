@@ -220,6 +220,7 @@ def work(env, sensors: dict, actuators: dict, test: int = 0):
 ''' Get user input from GUI
 '''
 #   ... code for getting user input from gui ...
+#
 #   if temp set in GUI:
 #       user_temp = ....
 #       env.set_user_setting(temperature = user_temp)
