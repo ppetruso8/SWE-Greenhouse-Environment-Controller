@@ -6,18 +6,6 @@ from sensors import TemperatureSensor, HumiditySensor, LightSensor
 from actuators import Heater, Humidifier, Lights
 
 class TestEnvironment(unittest.TestCase):
-    def test_initialization(self):
-        ''' 
-        Test that the environment is initialized with passed in values
-        '''
-        env = Environment(25.0, 60, 550)
-
-        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, "environment not initialized correctly")
-
-        self.assertEqual(env.get_environment_variable("temperature"), 25.0, "temperature not initialized correctly")
-        self.assertEqual(env.get_environment_variable("humidity"), 60, "humidity not initialized correctly")
-        self.assertEqual(env.get_environment_variable("light"), 550, "lights not initialized correctly")
-
     def test_setting_environment(self):
         ''' 
         Test that it is possible to change the environment factor's value 
@@ -58,6 +46,45 @@ class TestEnvironment(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             env.set_environment("x", 25)
+
+        with self.assertRaises(ValueError):
+            env.set_environment("temperature", 50.0)
+            env.set_environment("temperature", 10.0)
+
+            env.set_environment("humidity", 150)
+            env.set_environment("humidity", 0)
+
+            env.set_environment("light", 1000)
+            env.set_environment("light", 0)
+    
+    def test_setting_environment_boundaries(self):
+        '''
+        Test if the environment is set when a boundary value is passed in
+        '''
+        env = Environment(25.0, 60, 550)
+
+        # upper boundary
+        env.set_environment("temperature", 40.0)
+        self.assertEqual(env.get_environment_variable("temperature"), 40.0, 
+                         "environment temperature not set when upper boundary value passed in")
+        env.set_environment("humidity", 100)
+        self.assertEqual(env.get_environment_variable("humidity"), 100, 
+                         "environment humidity not set when upper boundary value passed in")
+        env.set_environment("light", 850)
+        self.assertEqual(env.get_environment_variable("light"), 850, 
+                         "environment light spectrum value not set when upper boundary value passed in")
+        
+        # lower boundary
+        env.set_environment("temperature", 15.0)
+        self.assertEqual(env.get_environment_variable("temperature"), 15.0, 
+                         "environment temperature not set when lower boundary value passed in")
+        env.set_environment("humidity", 40)
+        self.assertEqual(env.get_environment_variable("humidity"), 40, 
+                         "environment humidity not set when lower boundary value passed in")
+        env.set_environment("light", 150)
+        self.assertEqual(env.get_environment_variable("light"), 150, 
+                         "environment light spectrum value not set when lower boundary value passed in")
+        
 
     def test_getting_variable_invalid_input(self):
         '''
@@ -243,7 +270,7 @@ class TestActuators(unittest.TestCase):
         lights.change_light(900)
         self.assertEqual(env.get_environment_variable("light"), 850, "lights do not handle out-of-boundary input value")
         lights.change_light(20)
-        self.assertEqual(env.get_environment_variable("light"), 100, "lights do not handle out-of-boundary input value")
+        self.assertEqual(env.get_environment_variable("light"), 150, "lights do not handle out-of-boundary input value")
 
 class TestActuatorActivation(unittest.TestCase):
     def test_difference_actuators_idle(self):

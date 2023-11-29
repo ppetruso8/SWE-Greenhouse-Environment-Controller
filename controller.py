@@ -25,17 +25,6 @@ class Environment():
         humidity -- initial humidity of environment
         light -- initial light spectrum of environment
         '''
-        if type(temp) == int:
-            temp = float(temp)
-        elif type(temp) != float:
-            raise TypeError("Temperature of environment must be passed in as a float")
-        
-        if type(humidity) != int:
-            raise TypeError("Humidity of environment must be passed in as an integer")
-        
-        if type(light) != int:
-            raise TypeError("Light spectrum value of environment must be passed in as an integer")
-
         self.environment = {
             "temperature": temp,
             "humidity": humidity,
@@ -58,6 +47,22 @@ class Environment():
             raise TypeError("Environment variable must be passed in as a string")
 
         if variable in self.environment:
+            if variable == "temperature":
+                if value > 40.0:
+                    raise ValueError("Maximum allowed temperature is 40.0°C")
+                elif value < 15.0:
+                    raise ValueError("Minimum allowed temperature is 15.0°C")
+            elif variable == "humidity":
+                if value > 100:
+                    raise ValueError("Maximum allowed humidity is 100%")
+                elif value < 40:
+                    raise ValueError("Minimum allowed humidity is 40%")
+            elif variable == "light":
+                if value > 850:
+                    raise ValueError("Maximum allowed light spectrum value is 850nm")
+                elif value < 150:
+                    raise ValueError("Minimum allowed light spectrum value is 150nm")
+
             self.environment[variable] = value
         else:
             raise ValueError("Invalid environment variable: %s" % variable)

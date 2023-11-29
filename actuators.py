@@ -9,7 +9,7 @@ Controller can use appropriate actuator class to adjust the greenhouse environme
 Environment variables boundaries:
     - temperature: 15.0-40.0
     - humidity: 40-100
-    - light: 100-850
+    - light: 150-850
 
 NOTE: if that is too difficult, we do not need user input (it could be better but it's up to us), 
 but we can only simulate values, and raise some warnings when the environment condition is not 
@@ -150,7 +150,7 @@ class Lights:
         '''
         self.env = environment
         self.max = 850
-        self.min = 100
+        self.min = 150
         self.change = 10
 
     def change_light(self, target_light: int):
