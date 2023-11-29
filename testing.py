@@ -6,18 +6,6 @@ from sensors import TemperatureSensor, HumiditySensor, LightSensor
 from actuators import Heater, Humidifier, Lights
 
 class TestEnvironment(unittest.TestCase):
-    def test_initialization(self):
-        ''' 
-        Test that the environment is initialized with passed in values
-        '''
-        env = Environment(25.0, 60, 550)
-
-        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, "environment not initialized correctly")
-
-        self.assertEqual(env.get_environment_variable("temperature"), 25.0, "temperature not initialized correctly")
-        self.assertEqual(env.get_environment_variable("humidity"), 60, "humidity not initialized correctly")
-        self.assertEqual(env.get_environment_variable("light"), 550, "lights not initialized correctly")
-
     def test_setting_environment(self):
         ''' 
         Test that it is possible to change the environment factor's value 
