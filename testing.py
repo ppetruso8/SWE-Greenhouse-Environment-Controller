@@ -35,20 +35,21 @@ class TestEnvironment(unittest.TestCase):
 
     def test_initialization_invalid_input(self):
         '''
-        Test if exception is raised when invalid value type is passed while creating Environment instance
+        Test if environment handles invalid parameter being passed while initializing
         '''
         with self.assertRaises(TypeError):
             env1 = Environment("x", 60, 550)
             env2 = Environment(25.0, "x", 550)
             env3 = Environment(25.0, 60, "x")
 
-        # test if temperature is passed as integer instead of float
+        # test if temperature is converted to float if it is passed in as integer
         env = Environment(25, 60, 550)
-        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, "integer temperature is not converted to float during environment initialization")
+        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, 
+                         "integer temperature value not converted to float during environment initialization")
 
     def test_setting_environment_invalid_input(self):
         '''
-        Test that the appropriate exception is raised when invalid input is passed in while changing environment factor's value
+        Test if exception is raised when invalid input is passed in while changing environment factor's value
         '''
         env = Environment(25.0, 60, 550)
 
@@ -69,6 +70,38 @@ class TestEnvironment(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             env.get_environment_variable(2)
+
+    def test_get_user_setting(self):
+        '''
+        Test if get_user_setting method returns the dictionary containing user settings
+        '''
+        env = Environment(25.0, 60, 550)
+        self.assertEqual(env.get_user_setting(), {'user_temp': None, 'user_humidity': None, 'user_light': None}, "user setting dictionary not received correctly")
+
+    def test_set_user_setting(self):
+        '''
+        Test if user_setting dictionary is updated successfully
+        '''
+        env = Environment(25.0, 60, 550)
+
+        env.set_user_settings(30.0, 50, 600)
+        self.assertEqual(env.get_user_setting(), {'user_temp': 30.0, 'user_humidity': 50, 'user_light': 600})
+
+    def test_set_user_settings_invalid_input(self):
+        '''
+        Test if environment handles invalid parameter being passed while changing user_setting
+        '''
+        env = Environment(25.0, 60, 550)
+
+        with self.assertRaises(TypeError):
+            env.set_user_settings(temperature = "x")
+            env.set_user_settings(humidity = "x")
+            env.set_user_settings(light = "x")
+
+        # test if temperature is converted to float if it is passed in as integer 
+        env.set_user_settings(temperature = 20)
+        self.assertEqual(env.get_user_setting(), {'user_temp': 20.0, 'user_humidity': None, 'user_light': None}, 
+                         "integer temperature value not converted to float when updating user_settings")
         
 
 class TestSimulator(unittest.TestCase):
@@ -129,7 +162,6 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(env_data, env.get_environment_variable("light"), "error fetching light spectrum data from environment")  
 
 class TestActuators(unittest.TestCase):
-    #NOTE: add test to see what happens when user inputs value out of boundaries
     def test_heater(self):
         '''
         Test that heater updates the environment
@@ -176,9 +208,10 @@ class TestActuators(unittest.TestCase):
         heater.change_temp(10.0)
         self.assertEqual(env.get_environment_variable("temperature"), 15.0, "heater does not handle out-of-boundary input value")
 
-        # test heater being passed integer for temperature instead of float
+        # test if temperature is converted to float if it is passed in as integer
         heater.change_temp(20)
-        self.assertEqual(env.get_environment_variable("temperature"), 20.0, "heater does not convert float to integer")
+        self.assertEqual(env.get_environment_variable("temperature"), 20.0, 
+                        "integer temperature value not converted to float in heater")
 
     def test_humidifier_invalid_input(self):
         '''
