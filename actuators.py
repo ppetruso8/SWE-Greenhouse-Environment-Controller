@@ -190,13 +190,3 @@ class Lights:
                 self.env.set_environment("light", current_light)
             except Exception as e:
                 print("Lights: error encountered while updating environment: %s" % e)
-
-def initialize_actuators(environment):
-    heater = Heater(environment)
-    humidifier = Humidifier(environment)
-    lights = Lights(environment)
-    
-    # put actuators into the output dictionary
-    actuators = {"heater": heater, "humidifier": humidifier, "lights": lights}
-
-    return actuators

@@ -1,6 +1,4 @@
 '''
-Display real time data readings from greenhouse environment
-Option 1: let user set preferred environmental parameters
-Option 2: Raise warnings when environment condition not optimal and solve
-tkinter?
+Display real time data readings from greenhouse environment, Environment instance
+Let user set preferred environmental parameters and pass them to controller
 '''
