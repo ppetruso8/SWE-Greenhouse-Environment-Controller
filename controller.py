@@ -58,6 +58,22 @@ class Environment():
             raise TypeError("Environment variable must be passed in as a string")
 
         if variable in self.environment:
+            if variable == "temperature":
+                if value > 40.0:
+                    raise ValueError("Maximum allowed temperature is 40.0°C")
+                elif value < 15.0:
+                    raise ValueError("Minimum allowed temperature is 15.0°C")
+            elif variable == "humidity":
+                if value > 100:
+                    raise ValueError("Maximum allowed humidity is 100%")
+                elif value < 40:
+                    raise ValueError("Minimum allowed humidity is 40%")
+            elif variable == "light":
+                if value > 850:
+                    raise ValueError("Maximum allowed light spectrum value is 850nm")
+                elif value < 150:
+                    raise ValueError("Minimum allowed light spectrum value is 150nm")
+
             self.environment[variable] = value
         else:
             raise ValueError("Invalid environment variable: %s" % variable)
