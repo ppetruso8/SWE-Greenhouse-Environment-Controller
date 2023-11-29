@@ -134,7 +134,7 @@ def main():
     except Exception as e:
         print("An error has ocurred in main: %s" % e)
 
-def work(env, sensors: dict, actuators: dict):
+def work(env, sensors: dict, actuators: dict, test: int = 0):
     ''' Main control loop to simulate greenhouse environment
 
     In the while loop, the controller continually fetches data about the environment
@@ -148,49 +148,71 @@ def work(env, sensors: dict, actuators: dict):
         - humidity: difference of more than 2%
         - lights: difference of more than 5nm
 
+    Can operate in test mode, so that there is a set number of iterations - this
+    is triggered by setting the value of test to >0
+
     env -- greenhouse environment instance
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
+    test -- determine if this function call is for testing purpose
+        default: 0
     '''
-    # temporary for loop to simulate environment
     i = 0
+
+    # DELETE THIS AFTER REMOVING FOR LOOP
+    temp_i = 0
     try:
-        #while True:
-        for i in range(20):
-            # get sensors in dictionary
-            temperature_data = sensors["temperature"].get_simulator_data()
-            humidity_data = sensors["humidity"].get_simulator_data()
-            light_data = sensors["light"].get_simulator_data()
+        # while True:
+        for temp_i in range(20):
+            # get sensor data from simulator if not testing
+            if test == 0:
+                temperature_data = sensors["temperature"].get_simulator_data()
+                humidity_data = sensors["humidity"].get_simulator_data()
+                light_data = sensors["light"].get_simulator_data()
+            else:
+                temperature_data = sensors["temperature"].get_environment_data(env)
+                humidity_data = sensors["humidity"].get_environment_data(env)
+                light_data = sensors["light"].get_environment_data(env)
 
             print(temperature_data, humidity_data, light_data)
             
             # # check for user input
             # get_user_input(env)
-            # # get user settings
-            # user_settings = env.get_user_setting()
 
-            # # check for values in user settings and activate actuator if necessary
-            # if user_settings["user_temp"] != None:
-            #     temp_difference = abs(temperature_data - user_settings["user_temp"])
+            # get user settings
+            user_settings = env.get_user_setting()
 
-            #     if temp_difference > 1:      
-            #         actuators["heater"].change_temp(user_settings["user_temp"])
+            # check for values in user settings and activate actuator if necessary
+            if user_settings["user_temp"] != None:
+                temp_difference = abs(temperature_data - user_settings["user_temp"])
 
-            # if user_settings["user_humidity"] != None:
-            #     humidity_difference = abs(humidity_data - user_settings["user_humidity"])
+                if temp_difference > 1:      
+                    actuators["heater"].change_temp(user_settings["user_temp"])
 
-            #     if humidity_difference > 2:
-            #         actuators["humidifier"].change_humidity(user_settings["user_humidity"])
+            if user_settings["user_humidity"] != None:
+                humidity_difference = abs(humidity_data - user_settings["user_humidity"])
 
-            # if user_settings["user_light"] != None:
-            #     light_difference = abs(light_data - user_settings["user_light"])
+                if humidity_difference > 2:
+                    actuators["humidifier"].change_humidity(user_settings["user_humidity"])
 
-            #     if light_difference > 5:
-            #         actuators["lights"].change_light(user_settings["user_light"])
+            if user_settings["user_light"] != None:
+                light_difference = abs(light_data - user_settings["user_light"])
+
+                if light_difference > 5:
+                    actuators["lights"].change_light(user_settings["user_light"])
 
             # update_gui()
 
-            i += 1
+            # test loop control
+            if i > 0 and i >= test:
+                break
+
+            if test > 0:
+                i += 1
+
+            #DELETE THIS AFTER REMOVING FOR LOOP
+            temp_i += 1
+
     except Exception as e:
         print("An error has ocurred in main control loop: %s" % e)
 
