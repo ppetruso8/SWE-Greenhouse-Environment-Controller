@@ -245,7 +245,7 @@ class TestActuators(unittest.TestCase):
         lights.change_light(20)
         self.assertEqual(env.get_environment_variable("light"), 100, "lights do not handle out-of-boundary input value")
 
-class TestWorkLoop(unittest.TestCase):
+class TestActuatorActivation(unittest.TestCase):
     def test_difference_actuators_idle(self):
         '''
         Test if actuators stay inactive when user's setting is within acceptable range from 
@@ -321,18 +321,6 @@ class TestWorkLoop(unittest.TestCase):
                          "humidifier activated when humidity difference is lower boundary acceptable range")
         self.assertEqual(env.get_environment_variable("light"), 550, 
                          "lights activated when light spectrum value is lower boundary acceptable range")
-        
-
-    # def test_difference_actuators_activation(self):
-    #     env = Environment(25.0, 60, 550)
-    #     sensors = initialize_sensors(env)
-    #     actuators = initialize_actuators(env)
-
-    #     env.set_user_settings(temperature=25.5)
-    #     work(env, sensors, actuators, 1)
-
-    #     self.assertEqual(env.get_environment_variable("temperature"), 25.0)
-
 
 # class TestUserInput(unittest.TestCase):
 
