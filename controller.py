@@ -137,6 +137,17 @@ def main():
 def work(env, sensors: dict, actuators: dict):
     ''' Main control loop to simulate greenhouse environment
 
+    In the while loop, the controller continually fetches data about the environment
+    from the sensors, displays them through GUI. 
+    It also checks for the possible user input from GUI and based on it calls to
+    appropriate actuator to change the environment appropriately if there is a
+    difference between values of current environment variables and those passed
+    from a user. 
+    To activate an actuator, there must be a difference for each variable:
+        - temperature: difference of more than 1°C
+        - humidity: difference of more than 2%
+        - lights: difference of more than 5nm
+
     env -- greenhouse environment instance
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
@@ -153,14 +164,29 @@ def work(env, sensors: dict, actuators: dict):
 
             print(temperature_data, humidity_data, light_data)
             
+            # # check for user input
             # get_user_input(env)
+            # # get user settings
             # user_settings = env.get_user_setting()
-            # if user_settings["user_temperature"] != None:
-            #    actuators["heater"].change_temp(user_settings["user_temp"])
+
+            # # check for values in user settings and activate actuator if necessary
+            # if user_settings["user_temp"] != None:
+            #     temp_difference = abs(temperature_data - user_settings["user_temp"])
+
+            #     if temp_difference > 1:      
+            #         actuators["heater"].change_temp(user_settings["user_temp"])
+
             # if user_settings["user_humidity"] != None:
-            #   actuators["humidifier"].change_humidity(user_settings["user_humidity"])
+            #     humidity_difference = abs(humidity_data - user_settings["user_humidity"])
+
+            #     if humidity_difference > 2:
+            #         actuators["humidifier"].change_humidity(user_settings["user_humidity"])
+
             # if user_settings["user_light"] != None:
-            #   actuators["lights"].change_light(user_settings["user_light"])
+            #     light_difference = abs(light_data - user_settings["user_light"])
+
+            #     if light_difference > 5:
+            #         actuators["lights"].change_light(user_settings["user_light"])
 
             # update_gui()
 
