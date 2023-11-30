@@ -151,13 +151,13 @@ def work(env, sensors: dict, actuators: dict, test: int = 0):
         # update_gui()
 
         check_ideal_conditions(temperature_data, humidity_data, light_data, env, actuators)
-        
-        # test loop control
-        if i > 0 and i >= test:
-            break
 
         if test > 0:
             i += 1
+
+        # test loop control
+        if i > 0 and i >= test:
+            break
 
         #DELETE THIS AFTER REMOVING FOR LOOP
         temp_i += 1 
