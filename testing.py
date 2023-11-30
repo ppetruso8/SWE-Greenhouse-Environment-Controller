@@ -31,7 +31,7 @@ class TestEnvironment(unittest.TestCase):
             env.set_environment(1, 25)
 
         with self.assertRaises(ValueError):
-            env.set_environment("x", 25)
+            env.set_environment("moisture", 25)
 
         with self.assertRaises(ValueError):
             env.set_environment("temperature", 50.0)
