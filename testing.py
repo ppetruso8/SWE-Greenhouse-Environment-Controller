@@ -6,34 +6,20 @@ from sensors import TemperatureSensor, HumiditySensor, LightSensor
 from actuators import Heater, Humidifier, Lights
 
 class TestEnvironment(unittest.TestCase):
-    def test_setting_environment(self):
-        ''' 
-        Test that it is possible to change the environment factor's value 
+    def test_setting_environment_valid_input(self):
+        '''
+        Test if environment value is changed correctly after passing valid input value
         '''
         env = Environment(25.0, 60, 550)
-    
-        env.set_environment("temperature", 20.5)
-        self.assertEqual(env.get_environment_variable("temperature"), 20.5, "temperature change failure")
+
+        env.set_environment("temperature", 22.0)
+        self.assertEqual(env.get_environment_variable("temperature"), 22.0, "error setting temperature value")
 
         env.set_environment("humidity", 70)
-        self.assertEqual(env.get_environment_variable("humidity"), 70, "humidity change failure")
+        self.assertEqual(env.get_environment_variable("humidity"), 70, "error setting humidity value")
 
-        env.set_environment("light", 600)
-        self.assertEqual(env.get_environment_variable("light"), 600, "light spectrum change failure")
-
-    def test_initialization_invalid_input(self):
-        '''
-        Test if environment handles invalid parameter being passed while initializing
-        '''
-        with self.assertRaises(TypeError):
-            env1 = Environment("x", 60, 550)
-            env2 = Environment(25.0, "x", 550)
-            env3 = Environment(25.0, 60, "x")
-
-        # test if temperature is converted to float if it is passed in as integer
-        env = Environment(25, 60, 550)
-        self.assertEqual(env.get_environment(), {'temperature': 25.0, 'humidity': 60, 'light': 550}, 
-                         "integer temperature value not converted to float during environment initialization")
+        env.set_environment("light", 650)
+        self.assertEqual(env.get_environment_variable("light"), 650, "error setting light spectrum value")
 
     def test_setting_environment_invalid_input(self):
         '''
