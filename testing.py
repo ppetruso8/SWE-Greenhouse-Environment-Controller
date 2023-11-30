@@ -192,7 +192,7 @@ class TestActuatorActivation(unittest.TestCase):
         Test if actuators activate when the environment is not in ideal condition
         '''
         # higher value
-        env = Environment(30.0, 90, 900)
+        env = Environment(30.0, 90, 800)
         sensors = initialize_sensors(env)
         actuators = initialize_actuators(env)
 
@@ -205,7 +205,7 @@ class TestActuatorActivation(unittest.TestCase):
                          "lights not activated when environment not ideal")
         
         # lower value
-        env2 = Environment(17.0, 20, 300)
+        env2 = Environment(17.0, 45, 300)
         sensors = initialize_sensors(env2)
         actuators = initialize_actuators(env2)
 

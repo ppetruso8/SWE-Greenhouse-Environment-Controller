@@ -112,8 +112,8 @@ def main():
     except Exception as e:
         print("An error has ocurred in main: %s" % e)
 
-def work(env, sensors: dict, actuators: dict, test: int = 0):
-    ''' Main control loop to simulate greenhouse environment
+def work(env, sensors: dict, actuators: dict, i: int = -1):
+    ''' Main control loop to simulate greenhouse environment controller
 
     In the while loop, the controller continually fetches data about the environment
     from the sensors, and displays them through GUI. 
@@ -126,41 +126,46 @@ def work(env, sensors: dict, actuators: dict, test: int = 0):
     env -- greenhouse environment instance
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
-    test -- determine if this function call is for testing purpose
-        default: 0
+    i -- determine the number of iterations for while loop
+        default: -1 (infinite while loop)
     '''
-    i = 0
-
-    # DELETE THIS AFTER REMOVING FOR LOOP
-    temp_i = 0
-    # while True:
-    for temp_i in range(20):
-        # get sensor data from simulator if not testing
-        if test == 0:
-            temperature_data = sensors["temperature"].get_simulator_data()
-            humidity_data = sensors["humidity"].get_simulator_data()
-            light_data = sensors["light"].get_simulator_data()
-        else:
-            temperature_data = sensors["temperature"].get_environment_data(env)
-            humidity_data = sensors["humidity"].get_environment_data(env)
-            light_data = sensors["light"].get_environment_data(env)
+    while (i+1) != True:
+        # fetch data from sensors
+        temperature_data = sensors["temperature"].get_simulator_data()
+        humidity_data = sensors["humidity"].get_simulator_data()
+        light_data = sensors["light"].get_simulator_data()
 
         print(temperature_data, humidity_data, light_data)
 
         # send environment data to GUI
         # update_gui()
 
-        check_ideal_conditions(temperature_data, humidity_data, light_data, env, actuators)
+        # get ideal environment condition
+        ideal_conditions = env.get_ideal_conditions()
+        # send warning if environment status not ideal and activate actuators
+        if temperature_data > ideal_conditions["temp_upper"]:
+            #send_high_temperature_warning()
+            actuators["heater"].change_temp(ideal_conditions["temp_upper"])
+        elif temperature_data < ideal_conditions["temp_lower"]:
+            #send_low_temperature_warning()
+            actuators["heater"].change_temp(ideal_conditions["temp_lower"])
 
-        if test > 0:
-            i += 1
+        if humidity_data > ideal_conditions["humidity_upper"]:
+            #send_high_humidity_warning()
+            actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
+        elif humidity_data < ideal_conditions["humidity_lower"]:
+            #send_low_temperature_warning()
+            actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
 
-        # test loop control
-        if i > 0 and i >= test:
-            break
+        if light_data > ideal_conditions["light_upper"]:
+            #send_strong_light_warning()
+            actuators["lights"].change_light(ideal_conditions["light_upper"])
+        elif light_data < ideal_conditions["light_lower"]:
+            #send_weak_light_warning()
+            actuators["lights"].change_light(ideal_conditions["light_lower"])
 
-        #DELETE THIS AFTER REMOVING FOR LOOP
-        temp_i += 1 
+        # decrement i to continue while loop
+        i -= 1
 
 def initialize_sensors(environment):
     ''' Create an instance of each sensor and return dictionary of sensor objects
@@ -185,7 +190,7 @@ def initialize_actuators(environment):
 
     return actuators
 
-def check_ideal_conditions(temp, humidity, light, env, actuators):
+#def check_ideal_conditions(temp, humidity, light, env, actuators):
     ''' Check whether the current environment conditions are ideal
 
     If current conditions are not ideal, sends warning to the GUI and activates

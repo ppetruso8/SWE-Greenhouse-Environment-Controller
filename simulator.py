@@ -52,11 +52,7 @@ def get_simulator_data(sensor: str, environment):
         elif updated_value < 0:
             environment.set_environment(sensor, 0)
 
-    try:
-        # update environment with new value
-        environment.set_environment(sensor, updated_value)
-    except Exception as e:
-        print("Simulator: error encountered while updating environment: %s" % e)        
+    environment.set_environment(sensor, updated_value)     
 
     # return generated data
     return updated_value
