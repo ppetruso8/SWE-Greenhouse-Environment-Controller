@@ -216,6 +216,13 @@ class TestActuatorActivation(unittest.TestCase):
                          "humidifier not activated when environment not ideal")
         self.assertEqual(env2.get_environment_variable("light"), 600, 
                          "lights not activated when environment not ideal")
+        
+class TestWorkLoop(unittest.TestCase):
+    def test_test_statement(self):
+        pass
+    
+    def test_break(self):
+        pass
 
 if __name__ == '__main__':
     unittest.main()
