@@ -133,61 +133,57 @@ def work(env, sensors: dict, actuators: dict, test: int = 0):
 
     # DELETE THIS AFTER REMOVING FOR LOOP
     temp_i = 0
-    try:
-        # while True:
-        for temp_i in range(20):
-            # get sensor data from simulator if not testing
-            if test == 0:
-                temperature_data = sensors["temperature"].get_simulator_data()
-                humidity_data = sensors["humidity"].get_simulator_data()
-                light_data = sensors["light"].get_simulator_data()
-            else:
-                temperature_data = sensors["temperature"].get_environment_data(env)
-                humidity_data = sensors["humidity"].get_environment_data(env)
-                light_data = sensors["light"].get_environment_data(env)
+    # while True:
+    for temp_i in range(20):
+        # get sensor data from simulator if not testing
+        if test == 0:
+            temperature_data = sensors["temperature"].get_simulator_data()
+            humidity_data = sensors["humidity"].get_simulator_data()
+            light_data = sensors["light"].get_simulator_data()
+        else:
+            temperature_data = sensors["temperature"].get_environment_data(env)
+            humidity_data = sensors["humidity"].get_environment_data(env)
+            light_data = sensors["light"].get_environment_data(env)
 
-            print(temperature_data, humidity_data, light_data)
+        print(temperature_data, humidity_data, light_data)
 
-            # send environment data to GUI
-            # update_gui()
+        # send environment data to GUI
+        # update_gui()
 
-            # get ideal environment condition
-            ideal_conditions = env.get_ideal_conditions()
+        # get ideal environment condition
+        ideal_conditions = env.get_ideal_conditions()
 
-            # send warning if environment status not ideal and activate actuators
-            if temperature_data > ideal_conditions["temp_upper"]:
-                #send_high_temperature_warning()
-                actuators["heater"].change_temp(ideal_conditions["temp_upper"])
-            elif temperature_data < ideal_conditions["temp_lower"]:
-                #send_low_temperature_warning()
-                actuators["heater"].change_temp(ideal_conditions["temp_lower"])
+        # send warning if environment status not ideal and activate actuators
+        if temperature_data > ideal_conditions["temp_upper"]:
+            #send_high_temperature_warning()
+            actuators["heater"].change_temp(ideal_conditions["temp_upper"])
+        elif temperature_data < ideal_conditions["temp_lower"]:
+            #send_low_temperature_warning()
+            actuators["heater"].change_temp(ideal_conditions["temp_lower"])
 
-            if humidity_data > ideal_conditions["humidity_upper"]:
-                #send_high_humidity_warning()
-                actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
-            elif humidity_data < ideal_conditions["humidity_lower"]:
-                #send_low_temperature_warning()
-                actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
+        if humidity_data > ideal_conditions["humidity_upper"]:
+            #send_high_humidity_warning()
+            actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
+        elif humidity_data < ideal_conditions["humidity_lower"]:
+            #send_low_temperature_warning()
+            actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
 
-            if light_data > ideal_conditions["light_upper"]:
-                #send_strong_light_warning()
-                actuators["lights"].change_light(ideal_conditions["light_upper"])
-            elif light_data < ideal_conditions["light_lower"]:
-                #send_weak_light_warning()
-                actuators["lights"].change_light(ideal_conditions["light_lower"])
+        if light_data > ideal_conditions["light_upper"]:
+            #send_strong_light_warning()
+            actuators["lights"].change_light(ideal_conditions["light_upper"])
+        elif light_data < ideal_conditions["light_lower"]:
+            #send_weak_light_warning()
+            actuators["lights"].change_light(ideal_conditions["light_lower"])
 
-            # test loop control
-            if i > 0 and i >= test:
-                break
+        # test loop control
+        if i > 0 and i >= test:
+            break
 
-            if test > 0:
-                i += 1
+        if test > 0:
+            i += 1
 
-            #DELETE THIS AFTER REMOVING FOR LOOP
-            temp_i += 1
-
-    except Exception as e:
-        print("An error has ocurred in main control loop: %s" % e)
+        #DELETE THIS AFTER REMOVING FOR LOOP
+        temp_i += 1
 
 def initialize_sensors(environment):
     ''' Create an instance of each sensor and return dictionary of sensor objects
