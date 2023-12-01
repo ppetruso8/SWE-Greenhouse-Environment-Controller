@@ -37,9 +37,9 @@ def get_simulator_data(sensor: str, environment):
 
     # apply boundaries to the environmental variable values
     if sensor == "temperature":
-        if updated_value > 40:
+        if updated_value > 40.0:
             environment.set_environment(sensor, 40.0)
-        elif updated_value < 15:
+        elif updated_value < 15.0:
             environment.set_environment(sensor, 15.0)
     elif sensor == "humidity":
         if updated_value > 100:
