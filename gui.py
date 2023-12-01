@@ -19,7 +19,8 @@ class Greenhouse:
         self.light = tk.DoubleVar()
 
     def read_sensor_data(self):
-        
+        #get data from controller 
+
         # Environment.set_environment("temperature", 20.0)
         # Environment.set_environment("humidity", 20.0)
         # Environment.set_environment("light", 20.0)
