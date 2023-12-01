@@ -190,42 +190,6 @@ def initialize_actuators(environment):
     actuators = {"heater": heater, "humidifier": humidifier, "lights": lights}
 
     return actuators
-
-#def check_ideal_conditions(temp, humidity, light, env, actuators):
-    ''' Check whether the current environment conditions are ideal
-
-    If current conditions are not ideal, sends warning to the GUI and activates
-    appropriate actuator
-
-    temp -- current temperature of an environment
-    humidity -- current humidity of an environment
-    light -- current light spectrum value of an environment
-    env -- environment instance variable
-    actuators -- dictionary containing current environment actuators
-    '''
-    # get ideal environment condition
-    ideal_conditions = env.get_ideal_conditions()
-    # send warning if environment status not ideal and activate actuators
-    if temp > ideal_conditions["temp_upper"]:
-        #send_high_temperature_warning()
-        actuators["heater"].change_temp(ideal_conditions["temp_upper"])
-    elif temp < ideal_conditions["temp_lower"]:
-        #send_low_temperature_warning()
-        actuators["heater"].change_temp(ideal_conditions["temp_lower"])
-
-    if humidity > ideal_conditions["humidity_upper"]:
-        #send_high_humidity_warning()
-        actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
-    elif humidity < ideal_conditions["humidity_lower"]:
-        #send_low_temperature_warning()
-        actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
-
-    if light > ideal_conditions["light_upper"]:
-        #send_strong_light_warning()
-        actuators["lights"].change_light(ideal_conditions["light_upper"])
-    elif light < ideal_conditions["light_lower"]:
-        #send_weak_light_warning()
-        actuators["lights"].change_light(ideal_conditions["light_lower"])
     
 if __name__ == "__main__":
     main()
