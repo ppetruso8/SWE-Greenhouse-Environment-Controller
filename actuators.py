@@ -58,16 +58,17 @@ class Heater:
         # gradually change the temperature
         while current_temp != target_temperature:
             if current_temp > target_temperature:
-                new_temp = random.uniform(current_temp, current_temp+self.change)
-
-                if new_temp > target_temperature:
-                    current_temp = target_temperature
-                else:
-                    current_temp = new_temp
-            elif current_temp < target_temperature:
                 new_temp = random.uniform(current_temp-self.change, current_temp)
 
                 if new_temp < target_temperature:
+                    current_temp = target_temperature
+                else:
+                    current_temp = new_temp
+
+            else:
+                new_temp = random.uniform(current_temp, current_temp+self.change)
+
+                if new_temp > target_temperature:
                     current_temp = target_temperature
                 else:
                     current_temp = new_temp
@@ -112,16 +113,17 @@ class Humidifier:
         # gradually change the humidity
         while current_humidity != target_humidity:
             if current_humidity > target_humidity:
-                new_humidity = random.uniform(current_humidity, current_humidity+self.change)
-
-                if new_humidity > target_humidity:
-                    current_humidity = target_humidity
-                else:
-                    current_humidity = new_humidity
-            elif current_humidity < target_humidity:
                 new_humidity = random.uniform(current_humidity-self.change, current_humidity)
 
                 if new_humidity < target_humidity:
+                    current_humidity = target_humidity
+                else:
+                    current_humidity = new_humidity
+
+            else:
+                new_humidity = random.uniform(current_humidity, current_humidity+self.change)
+
+                if new_humidity > target_humidity:
                     current_humidity = target_humidity
                 else:
                     current_humidity = new_humidity
@@ -166,16 +168,17 @@ class Lights:
         # gradually change the light
         while current_light != target_light:
             if current_light > target_light:
-                new_light = random.uniform(current_light, current_light+self.change)
-
-                if new_light > target_light:
-                    current_light = target_light
-                else:
-                    current_light = new_light
-            elif current_light < target_light:
                 new_light = random.uniform(current_light-self.change, current_light)
 
                 if new_light < target_light:
+                    current_light = target_light
+                else:
+                    current_light = new_light
+
+            else:
+                new_light = random.uniform(current_light, current_light+self.change)
+
+                if new_light > target_light:
                     current_light = target_light
                 else:
                     current_light = new_light

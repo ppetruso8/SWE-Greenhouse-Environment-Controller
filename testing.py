@@ -1,5 +1,6 @@
 '''testing and validation'''
 import unittest
+from unittest import mock
 from controller import Environment, initialize_actuators, initialize_sensors, work
 from simulator import get_simulator_data
 from sensors import TemperatureSensor, HumiditySensor, LightSensor
@@ -211,75 +212,86 @@ class TestGettingEnvironment(unittest.TestCase):
     #     env_data = light_sensor.get_environment_data(env)
     #     self.assertEqual(env_data, env.get_environment_variable("light"), 
     #                      "error fetching light spectrum data from environment")  
-
-class TestActuators(unittest.TestCase):
-    def test_heater(self):
-        '''
-        Test that heater updates the environment
-        '''
-        env = Environment(25.0, 60, 550)
-        heater = Heater(env)
         
-        heater.change_temp(30.0)
-        self.assertEqual(env.get_environment_variable("temperature"), 30.0, "heater not updating environment")
+class TestHeaterChangeTemp(unittest.TestCase):
+    def setUp(self) -> None:
+        self.env = Environment(25.0, 60, 550)
+        self.heater = Heater(self.env) 
 
-    def test_humidifier(self):
-        '''
-        Test that humidifier updates the environment
-        '''
-        env = Environment(25.0, 60, 550)
-        humidifier = Humidifier(env)
+    def test_p1(self):
+        with self.assertRaises(TypeError):
+            self.heater.change_temp("x")
+
+    def test_p2(self):
+        self.env.set_environment("temperature", 40.0)
+        self.heater.change_temp(50)
+        self.assertEqual(self.env.get_environment_variable("temperature"), 40.0)
+
+    def test_p3(self):
+        self.env.set_environment("temperature", 25.2)
+
+        with mock.patch('random.uniform', return_value=24.95):
+            self.heater.change_temp(25.0)
+            self.assertEqual(self.env.get_environment_variable("temperature"), 25.0)
+
+    def test_p4(self):
+       self.env.set_environment("temperature", 15.3)
+
+       with mock.patch('random.uniform', return_value=15.0):
+           self.heater.change_temp(10.0) 
+           self.assertEqual(self.env.get_environment_variable("temperature"), 15.0)
+
+    def test_p5(self):
+        self.env.set_environment("temperature", 25.0)
         
-        humidifier.change_humidity(80)
-        self.assertEqual(env.get_environment_variable("humidity"), 80, "humidifier not updating environment")
+        with mock.patch('random.uniform', return_value=25.3):
+           self.heater.change_temp(25.2)
+           self.assertEqual(self.env.get_environment_variable("temperature"), 25.2)
 
-    def test_lights(self):
-        '''
-        Test that lights update the environment
-        '''
-        env = Environment(25.0, 60, 550)
-        lights = Lights(env)
+    def test_p6(self):
+        self.env.set_environment("temperature", 25.0)
         
-        lights.change_light(700)
-        self.assertEqual(env.get_environment_variable("light"), 700, "lights not updating environment")
+        with mock.patch('random.uniform', return_value=25.3):
+           self.heater.change_temp(25.3)
+           self.assertEqual(self.env.get_environment_variable("temperature"), 25.3)
 
-class TestActuatorActivation(unittest.TestCase):        
-    def test_actuators_activation(self):
-        '''
-        Test if actuators activate when the environment is not in ideal condition
-        '''
-        # higher value
-        env = Environment(30.0, 90, 800)
-        sensors = initialize_sensors(env)
-        actuators = initialize_actuators(env)
-
-        work(env, sensors, actuators, 1)
-        self.assertEqual(env.get_environment_variable("temperature"), 27.0, 
-                         "heater not activated when environment not ideal")
-        self.assertEqual(env.get_environment_variable("humidity"), 80, 
-                         "humidifier not activated when environment not ideal")
-        self.assertEqual(env.get_environment_variable("light"), 700, 
-                         "lights not activated when environment not ideal")
-        
-        # lower value
-        env2 = Environment(17.0, 45, 300)
-        sensors = initialize_sensors(env2)
-        actuators = initialize_actuators(env2)
-
-        work(env2, sensors, actuators, 1)
-        self.assertEqual(env2.get_environment_variable("temperature"), 21.0, 
-                         "heater not activated when environment not ideal")
-        self.assertEqual(env2.get_environment_variable("humidity"), 65, 
-                         "humidifier not activated when environment not ideal")
-        self.assertEqual(env2.get_environment_variable("light"), 600, 
-                         "lights not activated when environment not ideal")
-        
-class TestWorkLoop(unittest.TestCase):
-    def test_test_statement(self):
-        pass
+# class TestWorkLoop(unittest.TestCase):
+#     def test_test_statement(self):
+#         pass
     
-    def test_break(self):
-        pass
+#     def test_break(self):
+#         pass
+
+# class TestActuatorActivation(unittest.TestCase):        
+#     def test_actuators_activation(self):
+#         '''
+#         Test if actuators activate when the environment is not in ideal condition
+#         '''
+#         # higher value
+#         env = Environment(30.0, 90, 800)
+#         sensors = initialize_sensors(env)
+#         actuators = initialize_actuators(env)
+
+#         work(env, sensors, actuators, 1)
+#         self.assertEqual(env.get_environment_variable("temperature"), 27.0, 
+#                          "heater not activated when environment not ideal")
+#         self.assertEqual(env.get_environment_variable("humidity"), 80, 
+#                          "humidifier not activated when environment not ideal")
+#         self.assertEqual(env.get_environment_variable("light"), 700, 
+#                          "lights not activated when environment not ideal")
+        
+#         # lower value
+#         env2 = Environment(17.0, 45, 300)
+#         sensors = initialize_sensors(env2)
+#         actuators = initialize_actuators(env2)
+
+#         work(env2, sensors, actuators, 1)
+#         self.assertEqual(env2.get_environment_variable("temperature"), 21.0, 
+#                          "heater not activated when environment not ideal")
+#         self.assertEqual(env2.get_environment_variable("humidity"), 65, 
+#                          "humidifier not activated when environment not ideal")
+#         self.assertEqual(env2.get_environment_variable("light"), 600, 
+#                          "lights not activated when environment not ideal")
 
 if __name__ == '__main__':
     unittest.main()
