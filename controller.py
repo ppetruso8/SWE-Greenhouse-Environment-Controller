@@ -142,6 +142,7 @@ def work(env, sensors: dict, actuators: dict, i: int = -1):
 
         # get ideal environment condition
         ideal_conditions = env.get_ideal_conditions()
+
         # send warning if environment status not ideal and activate actuators
         if temperature_data > ideal_conditions["temp_upper"]:
             #send_high_temperature_warning()
