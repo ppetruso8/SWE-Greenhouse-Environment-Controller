@@ -72,10 +72,7 @@ class Heater:
                 else:
                     current_temp = new_temp
             
-            try:
-                self.env.set_environment("temperature", current_temp)
-            except Exception as e:
-                print("Heater: error encountered while updating environment: %s" % e)
+            self.env.set_environment("temperature", current_temp)
 
 class Humidifier:
     ''' Actuator class for controlling humidity of environment
@@ -129,10 +126,7 @@ class Humidifier:
                 else:
                     current_humidity = new_humidity
             
-            try:
-                self.env.set_environment("humidity", current_humidity)
-            except Exception as e:
-                print("Humidifier: error encountered while updating environment: %s" % e)
+            self.env.set_environment("humidity", current_humidity)
 
 class Lights:
     ''' Actuator class for controlling light spectrum of environment
@@ -185,8 +179,5 @@ class Lights:
                     current_light = target_light
                 else:
                     current_light = new_light
-            
-            try:
-                self.env.set_environment("light", current_light)
-            except Exception as e:
-                print("Lights: error encountered while updating environment: %s" % e)
+
+            self.env.set_environment("light", current_light)
