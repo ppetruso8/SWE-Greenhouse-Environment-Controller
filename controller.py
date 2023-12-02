@@ -6,7 +6,8 @@ and managing the main loop for controlling the system.
 
 from sensors import TemperatureSensor, LightSensor, HumiditySensor
 from actuators import Heater, Humidifier, Lights
-# from gui import update_gui, initialize_gui
+from gui import update_gui, initialize_gui
+from time import sleep
 
 class Environment():
     ''' Class representing the greenhouse environment
@@ -97,22 +98,23 @@ class Environment():
 def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
     '''
-    try:
+    # try:
         # create environment
-        environment = Environment(25.0,60,550)
+    environment = Environment(25.0,60,550)
 
-        # initialize sensors and actuators
-        sensors = initialize_sensors(environment)
-        actuators = initialize_actuators(environment)
+    # initialize sensors and actuators
+    sensors = initialize_sensors(environment)
+    actuators = initialize_actuators(environment)
 
-        # initialize_gui(environment)?
+    root, temp_label, humidity_label, light_label = initialize_gui()
+    gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label}
         
-        # main control loop 
-        work(environment, sensors, actuators)
-    except Exception as e:
-        print("An error has ocurred in main: %s" % e)
+    # main control loop 
+    work(environment, sensors, actuators, gui)
+    # except Exception as e:
+        # print("An error has ocurred in main: %s" % e)
 
-def work(env, sensors: dict, actuators: dict, i: int = -1):
+def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
     ''' Main control loop to simulate greenhouse environment controller
 
     In the while loop, the controller continually fetches data about the environment
@@ -126,6 +128,7 @@ def work(env, sensors: dict, actuators: dict, i: int = -1):
     env -- greenhouse environment instance
     sensors -- dictionary of sensors
     actuators -- dictionary of actuators
+    gui -- dictionary containing root of gui and labels for environmental variables
     i -- determine the number of iterations for while loop
         default: -1 (infinite while loop)
     '''
@@ -134,12 +137,10 @@ def work(env, sensors: dict, actuators: dict, i: int = -1):
         temperature_data = sensors["temperature"].get_simulator_data()
         humidity_data = sensors["humidity"].get_simulator_data()
         light_data = sensors["light"].get_simulator_data()
-
-        print(temperature_data, humidity_data, light_data)
-
+        
         # send environment data to GUI
-        # IMPORT THIS FROM GUI
-        # update_gui(temperature_data, humidity_data, light_data)
+        gui["root"].after(0, update_gui, gui["temp_label"], gui["humidity_label"], gui["light_label"], 
+                   temperature_data, humidity_data, light_data)
 
         # get ideal environment condition
         ideal_conditions = env.get_ideal_conditions()
@@ -167,8 +168,13 @@ def work(env, sensors: dict, actuators: dict, i: int = -1):
             #send_weak_light_warning()
             actuators["lights"].change_light(ideal_conditions["light_lower"])
 
+        gui["root"].update()
+        
         # decrement i to continue while loop
         i -= 1
+
+        # wait for 2 seconds 
+        sleep(2)
 
 def initialize_sensors(environment):
     ''' Create an instance of each sensor and return dictionary of sensor objects
