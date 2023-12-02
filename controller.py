@@ -138,12 +138,14 @@ def work(env, sensors: dict, actuators: dict, i: int = -1):
         print(temperature_data, humidity_data, light_data)
 
         # send environment data to GUI
-        # update_gui()
+        # IMPORT THIS FROM GUI
+        # update_gui(temperature_data, humidity_data, light_data)
 
         # get ideal environment condition
         ideal_conditions = env.get_ideal_conditions()
 
         # send warning if environment status not ideal and activate actuators
+        # IMPORT COMMENTED OUT FUNCTIONS FROM GUI
         if temperature_data > ideal_conditions["temp_upper"]:
             #send_high_temperature_warning()
             actuators["heater"].change_temp(ideal_conditions["temp_upper"])
