@@ -98,21 +98,19 @@ class Environment():
 def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
     '''
-    # try:
-        # create environment
+    # create environment
     environment = Environment(25.0,60,550)
 
     # initialize sensors and actuators
     sensors = initialize_sensors(environment)
     actuators = initialize_actuators(environment)
 
+    # initialize gui and put gui data into dictionary
     root, temp_label, humidity_label, light_label = initialize_gui()
     gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label}
         
     # main control loop 
     work(environment, sensors, actuators, gui)
-    # except Exception as e:
-        # print("An error has ocurred in main: %s" % e)
 
 def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
     ''' Main control loop to simulate greenhouse environment controller
