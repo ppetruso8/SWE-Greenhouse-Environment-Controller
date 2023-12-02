@@ -168,12 +168,13 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
             #send_weak_light_warning()
             actuators["lights"].change_light(ideal_conditions["light_lower"])
 
+        # update gui
         gui["root"].update()
-        
+
         # decrement i to continue while loop
         i -= 1
 
-        # wait for 2 seconds 
+        # wait for 2 seconds before next loop
         sleep(2)
 
 def initialize_sensors(environment):
