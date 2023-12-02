@@ -17,7 +17,7 @@ import tkinter as tk
 from tkinter import ttk
 
 # Import your modules here
-from app import Environment, initialize_sensors, initialize_actuators
+from controller import Environment, initialize_sensors, initialize_actuators
 
 # Initialize environment, sensors, and actuators
 environment = Environment(25.0, 60, 550)
@@ -74,7 +74,7 @@ humidity_input_label.pack()
 humidity_entry = ttk.Entry(root)
 humidity_entry.pack()
 
-light_input_label = ttk.Label(root, text="Set Light (value):")
+light_input_label = ttk.Label(root, text="Set Light Spectrum (nm):")
 light_input_label.pack()
 light_entry = ttk.Entry(root)
 light_entry.pack()
