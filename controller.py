@@ -189,6 +189,10 @@ def initialize_sensors(environment):
     return sensors
 
 def initialize_actuators(environment):
+    ''' Create an instance of each actuator and return dictionary of actuator objects
+    
+    environment -- environment instance
+    '''
     heater = Heater(environment)
     humidifier = Humidifier(environment)
     lights = Lights(environment)
