@@ -10,6 +10,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 
+
 def initialize_gui():
    '''Create GUI window for the greenhouse environment controller with labels for environment variables
    '''
@@ -35,6 +36,7 @@ def initialize_gui():
 
    return root, current_temperature_label, current_humidity_label, current_light_label, warning_label
 
+
 def update_gui(current_temperature_label, current_humidity_label, current_light_label, temperature, humidity, light):
    '''Update GUI labels with the current environment data
    
@@ -50,8 +52,8 @@ def update_gui(current_temperature_label, current_humidity_label, current_light_
    current_light_label.config(text=f"Light Spectrum: {light}nm")
 
 
-def display_warning_temperature(warning_label, variable, warning):
-   ''' Display warning for the temperature level
+def display_warning(warning_label, variable, warning):
+   ''' Display warning
    '''
    if variable == "temperature":
       if warning == "high":
@@ -59,22 +61,14 @@ def display_warning_temperature(warning_label, variable, warning):
       else: 
          warning_label.config(text=f"Warning: the temperature is too low\n")
 
-
-def display_warning_humidity(warning_label, variable, warning):
-   ''' Display warning for the humidity level
-   '''
    if variable == "humidity":
       if warning == "high":
-         warning_label.config(text=f"Warning: the humidity level is too high\n")
+         warning_label.config(text=f"Warning: the humidity is too high\n")
       else: 
-         warning_label.config(text=f"Warning: the humidity level is too low\n")
+         warning_label.config(text=f"Warning: the humidity is too low\n")
 
-
-def display_warning_light(warning_label, variable, warning):
-   ''' Display warning for the brightness of the light
-   '''
    if variable == "light":
       if warning == "high":
-         warning_label.config(text=f"Warning: it's too bright\n")
+         warning_label.config(text=f"Warning: the light is too bright\n")
       else: 
-         warning_label.config(text=f"Warning: it's too dark\n")
+         warning_label.config(text=f"Warning: the light is too dark\n")
