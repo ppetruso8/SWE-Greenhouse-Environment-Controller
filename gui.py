@@ -47,7 +47,7 @@ def initialize_gui():
     return gui
 
 
-def update_gui(current_temperature_label, current_humidity_label, current_light_label, temperature, humidity, light):
+def update_gui(current_temperature_label, current_humidity_label, current_light_label, temperature: float, humidity: int, light: int):
    '''Update GUI labels with the current environment data
    
    current_temperature_label -- label for displaying temperature 
@@ -62,8 +62,12 @@ def update_gui(current_temperature_label, current_humidity_label, current_light_
    current_light_label.config(text=f"Light Spectrum: {light} nm")
 
 
-def display_warning(warning_label, variable, warning):
-    ''' Display warning
+def display_warning(warning_label, variable: str, warning: str):
+    ''' Display warning message when current environment state is not ideal
+
+    warning_label -- tkinter Label for displaying the warning message
+    variable -- name of the variable that is not in ideal state
+    warning -- type of the warning that should be displayed
     '''
     if variable == "temperature":
         if warning == "high":
