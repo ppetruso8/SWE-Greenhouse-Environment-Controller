@@ -148,6 +148,7 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         if temperature_data > ideal_conditions["temp_upper"]:
             #display_warning(gui["warning_label"],"temperature", "high")
             actuators["heater"].change_temp(ideal_conditions["temp_upper"])
+
         elif temperature_data < ideal_conditions["temp_lower"]:
             #display_warning(gui["warning_label"], "temperature", "low")
             actuators["heater"].change_temp(ideal_conditions["temp_lower"])
@@ -155,6 +156,7 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         if humidity_data > ideal_conditions["humidity_upper"]:
             #display_warning(gui["warning_label"], "humidity", "high")
             actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
+
         elif humidity_data < ideal_conditions["humidity_lower"]:
             #display_warning(gui["warning_label"], "humidity", "low")
             actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
@@ -162,6 +164,7 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         if light_data > ideal_conditions["light_upper"]:
             #display_warning(gui["warning_label"], "light", "high")
             actuators["lights"].change_light(ideal_conditions["light_upper"])
+
         elif light_data < ideal_conditions["light_lower"]:
             #display_warning(gui["warning_label"], "light", "low")
             actuators["lights"].change_light(ideal_conditions["light_lower"])

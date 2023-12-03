@@ -255,12 +255,12 @@ class TestHeaterChangeTemp(unittest.TestCase):
            self.heater.change_temp(25.3)
            self.assertEqual(self.env.get_environment_variable("temperature"), 25.3)
 
-# class TestWorkLoop(unittest.TestCase):
-#     def test_test_statement(self):
-#         pass
+class TestWorkLoop(unittest.TestCase):
+    def test_test_statement(self):
+        pass
     
-#     def test_break(self):
-#         pass
+    def test_break(self):
+        pass
 
 # class TestActuatorActivation(unittest.TestCase):        
 #     def test_actuators_activation(self):
