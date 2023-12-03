@@ -5,6 +5,41 @@ from controller import Environment, initialize_actuators, initialize_sensors, ma
 from actuators import Heater, Humidifier, Lights
 from gui import initialize_gui
 
+class TestGettingEnvironment(unittest.TestCase):
+    '''
+    Class containing tests for the get_environment_variable method
+    '''
+    def setUp(self) -> None:
+        self.env = Environment(25.0, 60, 550)   
+
+    def test_getting_temperature_variable(self):
+        '''
+        Test if it is possible to fetch a value of temperature from environment
+        '''
+        self.assertEqual(self.env.get_environment_variable("temperature"), 25.0, 
+                         "temperature was not fetched from environment")
+        
+    def test_getting_humidity_variable(self):
+        '''
+        Test if it is possible to fetch a value of humidity from environment
+        '''
+        self.assertEqual(self.env.get_environment_variable("humidity"), 60, 
+                         "humidity was not fetched from environment")
+        
+    def test_getting_light_variable(self):
+        '''
+        Test if it is possible to fetch a value of light spectrum from environment
+        '''
+        self.assertEqual(self.env.get_environment_variable("light"), 550, 
+                         "light was not fetched from environment")
+
+    def test_getting_variable_invalid_input(self):
+        '''
+        Test if exception is raised when invalid input is passed in while getting the value of environment factor
+        '''
+        with self.assertRaises(ValueError):
+            self.env.get_environment_variable("x") 
+            
 class TestSettingEnvironment(unittest.TestCase):
     '''
     Class containing tests for the set_environment method
@@ -129,41 +164,6 @@ class TestSettingEnvironment(unittest.TestCase):
         self.env.set_environment("light", 150)
         self.assertEqual(self.env.get_environment_variable("light"), 150, 
                          "environment light spectrum value not set when lower boundary value passed in")
-
-class TestGettingEnvironment(unittest.TestCase):
-    '''
-    Class containing tests for the get_environment_variable method
-    '''
-    def setUp(self) -> None:
-        self.env = Environment(25.0, 60, 550)   
-
-    def test_getting_temperature_variable(self):
-        '''
-        Test if it is possible to fetch a value of temperature from environment
-        '''
-        self.assertEqual(self.env.get_environment_variable("temperature"), 25.0, 
-                         "temperature was not fetched from environment")
-        
-    def test_getting_humidity_variable(self):
-        '''
-        Test if it is possible to fetch a value of humidity from environment
-        '''
-        self.assertEqual(self.env.get_environment_variable("humidity"), 60, 
-                         "humidity was not fetched from environment")
-        
-    def test_getting_light_variable(self):
-        '''
-        Test if it is possible to fetch a value of light spectrum from environment
-        '''
-        self.assertEqual(self.env.get_environment_variable("light"), 550, 
-                         "light was not fetched from environment")
-
-    def test_getting_variable_invalid_input(self):
-        '''
-        Test if exception is raised when invalid input is passed in while getting the value of environment factor
-        '''
-        with self.assertRaises(ValueError):
-            self.env.get_environment_variable("x") 
         
 class TestHeaterChangeTemp(unittest.TestCase):
     '''
