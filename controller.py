@@ -7,7 +7,6 @@ and managing the main loop for controlling the system.
 from sensors import TemperatureSensor, LightSensor, HumiditySensor
 from actuators import Heater, Humidifier, Lights
 from gui import update_gui, initialize_gui, display_warning
-#from gui import display_warning
 from time import sleep
 
 class Environment():
