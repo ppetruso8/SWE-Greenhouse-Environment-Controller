@@ -3,7 +3,7 @@ import unittest
 from unittest import mock
 from controller import Environment, initialize_actuators, initialize_sensors, manage_environment
 from actuators import Heater, Humidifier, Lights
-from gui import initialize_gui
+from gui import initialize_gui, display_warning
 
 class TestGettingEnvironment(unittest.TestCase):
     '''
@@ -39,7 +39,7 @@ class TestGettingEnvironment(unittest.TestCase):
         '''
         with self.assertRaises(ValueError):
             self.env.get_environment_variable("x") 
-            
+
 class TestSettingEnvironment(unittest.TestCase):
     '''
     Class containing tests for the set_environment method
@@ -285,6 +285,63 @@ class TestLightsChangeLight(unittest.TestCase):
         with mock.patch('random.uniform', return_value=853):
             self.lights.change_light(852)
             self.assertEqual(self.env.get_environment_variable("light"), 850)
+
+class TestDisplayWarning(unittest.TestCase):
+    '''
+    Class containing tests for the display_warning method of gui
+    '''
+    def setUp(self) -> None:
+        self.gui = initialize_gui()
+
+    def test_p1(self):
+        display_warning(self.gui["warning_label_temperature"],"temperature", "high")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_temperature"].cget("text"), "Warning: the temperature is too high\n")
+
+    def test_p2(self):
+        display_warning(self.gui["warning_label_temperature"], "temperature", "low")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_temperature"].cget("text"), "Warning: the temperature is too low\n")
+    
+    def test_p3(self):
+        display_warning(self.gui["warning_label_temperature"], "temperature", "good")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_temperature"].cget("text"), "")
+
+    def test_p4(self):
+        display_warning(self.gui["warning_label_humidity"], "humidity", "high")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_humidity"].cget("text"), "Warning: the humidity is too high\n")
+
+    def test_p5(self):
+        display_warning(self.gui["warning_label_humidity"], "humidity", "low")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_humidity"].cget("text"), "Warning: the humidity is too low\n")
+
+    def test_p6(self):
+        display_warning(self.gui["warning_label_humidity"], "humidity", "good")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_humidity"].cget("text"), "")
+
+    def test_p7(self):
+        with self.assertRaises(ValueError):
+            display_warning(self.gui["warning_label_humidity"], "moisture", "good")
+            self.gui["root"].update()
+
+    def test_p8(self):
+        display_warning(self.gui["warning_label_light"], "light", "high")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_light"].cget("text"), "Warning: the light is too strong\n")
+
+    def test_p9(self):
+        display_warning(self.gui["warning_label_light"], "light", "low")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_light"].cget("text"), "Warning: the light is too weak\n")
+
+    def test_p8(self):
+        display_warning(self.gui["warning_label_light"], "light", "good")
+        self.gui["root"].update()
+        self.assertEqual(self.gui["warning_label_light"].cget("text"), "")
 
 class TestManageEnvironment(unittest.TestCase):
     '''

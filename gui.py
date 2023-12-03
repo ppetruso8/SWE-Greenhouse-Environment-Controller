@@ -83,9 +83,9 @@ def display_warning(warning_label, variable, warning):
 
     elif variable == "light":
         if warning == "high":
-            warning_label.config(text=f"Warning: the light is too high\n")
+            warning_label.config(text=f"Warning: the light is too strong\n")
         elif warning == "low":
-            warning_label.config(text=f"Warning: the light is too low\n")
+            warning_label.config(text=f"Warning: the light is too weak\n")
         else:
             warning_label.config(text=f"")
 
