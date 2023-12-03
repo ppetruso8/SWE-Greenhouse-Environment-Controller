@@ -99,7 +99,7 @@ def main():
     ''' Main function to create environment and initialize sensors, actuators, GUI and to start the main control loop
     '''
     # create environment
-    environment = Environment(25.0,67,620)
+    environment = Environment(25.0,67,650)
 
     # initialize sensors and actuators
     sensors = initialize_sensors(environment)
