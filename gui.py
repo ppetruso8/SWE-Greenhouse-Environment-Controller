@@ -28,7 +28,10 @@ def initialize_gui():
    current_light_label = ttk.Label(root, text="Light Spectrum: --nm")
    current_light_label.pack()
 
-   return root, current_temperature_label, current_humidity_label, current_light_label
+   warning_label = ttk.Label(root, text="Environment is in ideal condition")
+   warning_label.pack()
+
+   return root, current_temperature_label, current_humidity_label, current_light_label, warning_label
 
 def update_gui(current_temperature_label, current_humidity_label, current_light_label, temperature, humidity, light):
    '''Update GUI labels with the current environment data
@@ -43,3 +46,14 @@ def update_gui(current_temperature_label, current_humidity_label, current_light_
    current_temperature_label.config(text=f"Temperature: {temperature}°C")
    current_humidity_label.config(text=f"Humidity: {humidity}%")
    current_light_label.config(text=f"Light Spectrum: {light}nm")
+
+def display_warning(warning_label, variable, warning):
+   ''' Display warning
+   
+   '''
+   # if variable is "temperature"
+   #   if warning is "high"
+   #        warning_label.config(text=f"Warning: the temperature is too high")
+   #   if warning is "low"
+   #        warning_label.config(text=f"Warning: the temperature is too low")
+   #... etc for each variable
