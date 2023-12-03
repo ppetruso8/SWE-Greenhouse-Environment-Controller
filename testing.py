@@ -243,6 +243,41 @@ class TestHumidifierChangeHumidity(unittest.TestCase):
             self.humidifier.change_humidity(110)
             self.assertEqual(self.env.get_environment_variable("humidity"), 100)
 
+class TestLightsChangeLight(unittest.TestCase):
+    def setUp(self) -> None:
+        self.env = Environment(25.0, 60, 550)
+        self.lights = Lights(self.env) 
+
+    def test_p1(self):
+        with self.assertRaises(TypeError):
+            self.lights.change_light("x")
+
+    def test_p2(self):
+        self.env.set_environment("light", 150)
+        self.lights.change_light(100)
+        self.assertEqual(self.env.get_environment_variable("light"), 150)
+
+    def test_p3(self):
+        self.env.set_environment("light", 600)
+
+        with mock.patch('random.uniform', return_value=596):
+           self.lights.change_light(598)
+           self.assertEqual(self.env.get_environment_variable("light"), 598)
+
+    def test_p4(self):
+        self.env.set_environment("light", 600)
+
+        with mock.patch('random.uniform', return_value=605):
+           self.lights.change_light(603)
+           self.assertEqual(self.env.get_environment_variable("light"), 603)
+
+    def test_p5(self):
+        self.env.set_environment("light", 848)
+
+        with mock.patch('random.uniform', return_value=853):
+            self.lights.change_light(852)
+            self.assertEqual(self.env.get_environment_variable("light"), 850)
+
 class TestManageEnvironment(unittest.TestCase):
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)
