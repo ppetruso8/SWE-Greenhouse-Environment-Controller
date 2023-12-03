@@ -287,6 +287,9 @@ class TestLightsChangeLight(unittest.TestCase):
             self.assertEqual(self.env.get_environment_variable("light"), 850)
 
 class TestManageEnvironment(unittest.TestCase):
+    '''
+    Class containing tests for the manage_environment function of controller
+    '''
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)
         self.sensors = initialize_sensors(self.env)
