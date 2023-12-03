@@ -73,7 +73,7 @@ def display_warning(warning_label, variable, warning):
         else:
             warning_label.config(text=f"")
 
-    if variable == "humidity":
+    elif variable == "humidity":
         if warning == "high":
             warning_label.config(text=f"Warning: the humidity is too high\n")
         elif warning == "low":
@@ -81,10 +81,13 @@ def display_warning(warning_label, variable, warning):
         else:
             warning_label.config(text=f"")
 
-    if variable == "light":
+    elif variable == "light":
         if warning == "high":
             warning_label.config(text=f"Warning: the light is too high\n")
         elif warning == "low":
             warning_label.config(text=f"Warning: the light is too low\n")
         else:
             warning_label.config(text=f"")
+
+    else:
+        raise ValueError("Invalid environment variable: %s" % variable)
