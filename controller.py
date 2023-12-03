@@ -110,10 +110,10 @@ def main():
     gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label, "warning_label_temperature": warning_label_temperature, "warning_label_humidity": warning_label_humidity, "warning_label_light": warning_label_light}
         
     # main control loop 
-    work(environment, sensors, actuators, gui)
+    manage_environment(environment, sensors, actuators, gui)
 
-def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
-    ''' Main control loop to simulate greenhouse environment controller
+def manage_environment(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
+    ''' Main control loop to simulate greenhouse environment controller managing the environment
 
     In the while loop, the controller continually fetches data about the environment
     from the sensors, and displays them through GUI. 
