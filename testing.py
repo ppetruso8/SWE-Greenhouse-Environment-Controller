@@ -130,10 +130,9 @@ class TestSettingEnvironment(unittest.TestCase):
         self.assertEqual(self.env.get_environment_variable("light"), 150, 
                          "environment light spectrum value not set when lower boundary value passed in")
 
-
 class TestGettingEnvironment(unittest.TestCase):
     '''
-    Class containing tests for the set_environment method
+    Class containing tests for the get_environment_variable method
     '''
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)   
@@ -167,6 +166,9 @@ class TestGettingEnvironment(unittest.TestCase):
             self.env.get_environment_variable("x") 
         
 class TestHeaterChangeTemp(unittest.TestCase):
+    '''
+    Class containing tests for the change_temp method of heater
+    '''
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)
         self.heater = Heater(self.env) 
@@ -209,6 +211,9 @@ class TestHeaterChangeTemp(unittest.TestCase):
            self.assertEqual(self.env.get_environment_variable("temperature"), 25.3)
 
 class TestHumidifierChangeHumidity(unittest.TestCase):
+    '''
+    Class containing tests for change_humidity method for humidifier
+    '''
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)
         self.humidifier = Humidifier(self.env) 
@@ -244,6 +249,9 @@ class TestHumidifierChangeHumidity(unittest.TestCase):
             self.assertEqual(self.env.get_environment_variable("humidity"), 100)
 
 class TestLightsChangeLight(unittest.TestCase):
+    '''
+    Class containing tests for change_light method for lights
+    '''
     def setUp(self) -> None:
         self.env = Environment(25.0, 60, 550)
         self.lights = Lights(self.env) 
