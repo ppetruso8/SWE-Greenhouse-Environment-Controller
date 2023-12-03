@@ -135,8 +135,6 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         temperature_data = sensors["temperature"].get_simulator_data()
         humidity_data = sensors["humidity"].get_simulator_data()
         light_data = sensors["light"].get_simulator_data()
-
-        print(temperature_data, humidity_data, light_data)
         
         # send environment data to GUI
         gui["root"].after(0, update_gui, gui["temp_label"], gui["humidity_label"], gui["light_label"], 
