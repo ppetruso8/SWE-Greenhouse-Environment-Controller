@@ -2,7 +2,6 @@
 import unittest
 from unittest import mock
 from controller import Environment, initialize_actuators, initialize_sensors, manage_environment
-from sensors import TemperatureSensor, HumiditySensor, LightSensor
 from actuators import Heater, Humidifier, Lights
 from gui import initialize_gui
 
@@ -165,53 +164,7 @@ class TestGettingEnvironment(unittest.TestCase):
         Test if exception is raised when invalid input is passed in while getting the value of environment factor
         '''
         with self.assertRaises(ValueError):
-            self.env.get_environment_variable("x")
-
-# class TestSensors(unittest.TestCase):
-    # def test_temperature_sensor(self):
-    #     '''
-    #     Test that temperature sensor is able to fetch data
-    #     '''
-    #     env = Environment(25.0, 60, 550)
-    #     temp_sensor = TemperatureSensor(env)
-
-    #     simulator_data = temp_sensor.get_simulator_data()
-    #     self.assertEqual(simulator_data, env.get_environment_variable("temperature"), 
-    #                      "error fetching temperature data from simulator")
-
-    #     env_data = temp_sensor.get_environment_data(env)
-    #     self.assertEqual(env_data, env.get_environment_variable("temperature"), 
-    #                      "error fetching temperature data from environment")
-
-    # def test_humidity_sensor(self):
-    #     '''
-    #     Test that humidity sensor is able to fetch data
-    #     '''
-    #     env = Environment(25.0, 60, 550)
-    #     humidity_sensor = HumiditySensor(env)
-
-    #     simulator_data = humidity_sensor.get_simulator_data()
-    #     self.assertEqual(simulator_data, env.get_environment_variable("humidity"), 
-    #                      "error fetching humidity data from simulator")
-
-    #     env_data = humidity_sensor.get_environment_data(env)
-    #     self.assertEqual(env_data, env.get_environment_variable("humidity"), 
-    #                      "error fetching humidity data from environment")       
-
-    # def test_light_sensor(self):
-    #     '''
-    #     Test that light spectrum sensor is able to fetch data
-    #     '''
-    #     env = Environment(25.0, 60, 550)
-    #     light_sensor = LightSensor(env)
-
-    #     simulator_data = light_sensor.get_simulator_data()
-    #     self.assertEqual(simulator_data, env.get_environment_variable("light"), 
-    #                      "error fetching light spectrum data from simulator")
-
-    #     env_data = light_sensor.get_environment_data(env)
-    #     self.assertEqual(env_data, env.get_environment_variable("light"), 
-    #                      "error fetching light spectrum data from environment")  
+            self.env.get_environment_variable("x") 
         
 class TestHeaterChangeTemp(unittest.TestCase):
     def setUp(self) -> None:
@@ -254,6 +207,41 @@ class TestHeaterChangeTemp(unittest.TestCase):
         with mock.patch('random.uniform', return_value=25.3):
            self.heater.change_temp(25.3)
            self.assertEqual(self.env.get_environment_variable("temperature"), 25.3)
+
+class TestHumidifierChangeHumidity(unittest.TestCase):
+    def setUp(self) -> None:
+        self.env = Environment(25.0, 60, 550)
+        self.humidifier = Humidifier(self.env) 
+
+    def test_p1(self):
+        with self.assertRaises(TypeError):
+            self.humidifier.change_humidity("x")
+
+    def test_p2(self):
+        self.env.set_environment("humidity", 40)
+        self.humidifier.change_humidity(35)
+        self.assertEqual(self.env.get_environment_variable("humidity"), 40)
+
+    def test_p3(self):
+        self.env.set_environment("humidity", 65)
+
+        with mock.patch('random.uniform', return_value=63):
+           self.humidifier.change_humidity(64)
+           self.assertEqual(self.env.get_environment_variable("humidity"), 64)
+
+    def test_p4(self):
+        self.env.set_environment("humidity", 64)
+
+        with mock.patch('random.uniform', return_value=66):
+           self.humidifier.change_humidity(65)
+           self.assertEqual(self.env.get_environment_variable("humidity"), 65)
+
+    def test_p5(self):
+        self.env.set_environment("humidity", 99)
+
+        with mock.patch('random.uniform', return_value=101):
+            self.humidifier.change_humidity(110)
+            self.assertEqual(self.env.get_environment_variable("humidity"), 100)
 
 class TestManageEnvironment(unittest.TestCase):
     def setUp(self) -> None:
