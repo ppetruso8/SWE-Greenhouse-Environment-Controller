@@ -106,8 +106,7 @@ def main():
     actuators = initialize_actuators(environment)
 
     # initialize gui and put gui data into dictionary
-    root, temp_label, humidity_label, light_label, warning_label_temperature, warning_label_humidity, warning_label_light = initialize_gui()
-    gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label, "warning_label_temperature": warning_label_temperature, "warning_label_humidity": warning_label_humidity, "warning_label_light": warning_label_light}
+    gui = initialize_gui()
         
     # main control loop 
     manage_environment(environment, sensors, actuators, gui)
