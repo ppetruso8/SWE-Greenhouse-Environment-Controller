@@ -107,8 +107,8 @@ def main():
     actuators = initialize_actuators(environment)
 
     # initialize gui and put gui data into dictionary
-    root, temp_label, humidity_label, light_label, warning_label, warning_label_temperature, warning_label_humidity, warning_label_light = initialize_gui()
-    gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label, "warning_label": warning_label, "warning_label_temperature": warning_label_temperature, "warning_label_humidity": warning_label_humidity, "warning_label_light": warning_label_light}
+    root, temp_label, humidity_label, light_label, warning_label_temperature, warning_label_humidity, warning_label_light = initialize_gui()
+    gui = {"root": root, "temp_label": temp_label, "humidity_label": humidity_label, "light_label": light_label, "warning_label_temperature": warning_label_temperature, "warning_label_humidity": warning_label_humidity, "warning_label_light": warning_label_light}
         
     # main control loop 
     work(environment, sensors, actuators, gui)
@@ -136,6 +136,8 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         temperature_data = sensors["temperature"].get_simulator_data()
         humidity_data = sensors["humidity"].get_simulator_data()
         light_data = sensors["light"].get_simulator_data()
+
+        print(temperature_data, humidity_data, light_data)
         
         # send environment data to GUI
         gui["root"].after(0, update_gui, gui["temp_label"], gui["humidity_label"], gui["light_label"], 
@@ -145,35 +147,41 @@ def work(env, sensors: dict, actuators: dict, gui: dict, i: int = -1):
         ideal_conditions = env.get_ideal_conditions()
 
         # send warning if environment status not ideal and activate actuators
-        if temperature_data > ideal_conditions["temp_upper"]:
-            display_warning(gui["warning_label_temperature"],"temperature", "high")
-            actuators["heater"].change_temp(ideal_conditions["temp_upper"])
+        if temperature_data > ideal_conditions["temp_upper"] or temperature_data < ideal_conditions["temp_lower"]:
+            if temperature_data > ideal_conditions["temp_upper"]:
+                display_warning(gui["warning_label_temperature"],"temperature", "high")
+                actuators["heater"].change_temp(ideal_conditions["temp_upper"])
 
-        elif temperature_data < ideal_conditions["temp_lower"]:
-            display_warning(gui["warning_label_temperature"], "temperature", "low")
-            actuators["heater"].change_temp(ideal_conditions["temp_lower"])
-        # else:
-        #     display_warning(gui["warning_label_temperature"], "temperature", "good")
+            elif temperature_data < ideal_conditions["temp_lower"]:
+                display_warning(gui["warning_label_temperature"], "temperature", "low")
+                actuators["heater"].change_temp(ideal_conditions["temp_lower"])
 
-        if humidity_data > ideal_conditions["humidity_upper"]:
-            display_warning(gui["warning_label_humidity"], "humidity", "high")
-            actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
+        else:
+            display_warning(gui["warning_label_temperature"], "temperature", "good")
 
-        elif humidity_data < ideal_conditions["humidity_lower"]:
-            display_warning(gui["warning_label_humidity"], "humidity", "low")
-            actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
-        # else: 
-        #     display_warning(gui["warning_label_humidity"], "humidity, good")
+        if humidity_data > ideal_conditions["humidity_upper"] or humidity_data < ideal_conditions["humidity_lower"]:
+            if humidity_data > ideal_conditions["humidity_upper"]:
+                display_warning(gui["warning_label_humidity"], "humidity", "high")
+                actuators["humidifier"].change_humidity(ideal_conditions["humidity_upper"])
 
-        if light_data > ideal_conditions["light_upper"]:
-            display_warning(gui["warning_label_light"], "light", "high")
-            actuators["lights"].change_light(ideal_conditions["light_upper"])
+            elif humidity_data < ideal_conditions["humidity_lower"]:
+                display_warning(gui["warning_label_humidity"], "humidity", "low")
+                actuators["humidifier"].change_humidity(ideal_conditions["humidity_lower"])
 
-        elif light_data < ideal_conditions["light_lower"]:
-            display_warning(gui["warning_label_light"], "light", "low")
-            actuators["lights"].change_light(ideal_conditions["light_lower"])
-        # else: 
-        #     display_warning(gui["warning_label_light"], "light", "good")
+        else: 
+            display_warning(gui["warning_label_humidity"], "humidity", "good")
+
+        if light_data > ideal_conditions["light_upper"] or light_data < ideal_conditions["light_lower"]:
+            if light_data > ideal_conditions["light_upper"]:
+                display_warning(gui["warning_label_light"], "light", "high")
+                actuators["lights"].change_light(ideal_conditions["light_upper"])
+
+            elif light_data < ideal_conditions["light_lower"]:
+                display_warning(gui["warning_label_light"], "light", "low")
+                actuators["lights"].change_light(ideal_conditions["light_lower"])
+
+        else: 
+            display_warning(gui["warning_label_light"], "light", "good")
 
         # update gui
         gui["root"].update()
