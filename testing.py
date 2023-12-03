@@ -1,4 +1,4 @@
-'''testing and validation'''
+'''Test Suite'''
 import unittest
 from unittest import mock
 from controller import Environment, initialize_actuators, initialize_sensors, manage_environment

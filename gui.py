@@ -1,10 +1,6 @@
 '''
 Display real time data readings from greenhouse environment and show appropriate warnings
 if current conditions are not ideal.
-
-source: https://docs.python.org/3/library/tkinter.html 
-        https://realpython.com/python-gui-tkinter/
-        https://www.geeksforgeeks.org/python-gui-tkinter/
 '''
 from tkinter import *
 import tkinter as tk
